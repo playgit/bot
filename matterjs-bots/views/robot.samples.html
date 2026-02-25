@@ -1,0 +1,179 @@
+{% extends "_default.html" %}
+
+{% block head %}
+<title>Sample Code :: RBN-CODE</title>
+<style>
+pre { overflow:auto; }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="
+        ph2 ph4-m ph5-l
+        mw9 mw8-ns
+        ml-auto mr-auto">
+
+    <!-- standardised header -->
+    <h1 class="
+            f1 ma0 pt4 fw6 tc
+            flex justify-center items-center">
+        <a href="/" title="back to front page..." class="mr3">
+            <img src="/artwork/logo.ebotmasters.medium.png" width="80" />
+        </a>
+        <span class="title-font theme-primary dn">
+            RBN-CODE
+        </span>
+        <div class="tl lh-copy">
+            <div class="
+                    di db-m f2
+                    flex flex-column
+                    retro-font">
+                Sample Code
+            </div>
+        </div>
+    </h1>
+    <!-- END: standardised header -->
+
+    <article class="lh-copy">
+        <h2 id="code-spinbot" class="white retro-font">
+            SPINBOT
+        </h2>
+        <ul>
+            <li>
+                robot uses <code>context.memory</code> to count frames
+            </li>
+            <li>
+                moves closer to center of arena with
+                <code>context.state.angleToCenter</code>
+
+            </li>
+            <li>
+                why stop moving at 23 frames?
+                number was determined from trial and error testing
+                on robot control panel
+            </li>
+            <li>
+                spins and fires at consistent pace
+            </li>
+        </ul>
+        <pre class="click-select f6 pa3 br3 bg-translucent-black">
+// create a persistent frame counter in memory
+// runs once per frame of simulation
+if (!('counter' in context.memory)) context.memory.counter = 0;
+context.memory.counter++;
+
+// move forward towards center of arena for first 23 frames ...
+if (context.memory.counter < 23) {
+    context.action.desiredAngle = context.state.angleToCenter;
+    context.action.desiredForce = 0.001;
+} else {
+    // ...then start spinning and shooting!
+    context.action.desiredAngle = context.state.angle + 0.05;
+    context.action.desiredLaunch = true;
+}
+        </pre>
+    </article>
+
+    <article class="lh-copy">
+        <h2 id="code-fastbot-slowbot" class="white retro-font">
+            FASTBOT / SLOWBOT
+        </h2>
+        <ul>
+            <li>
+                turns away from walls using
+                <code>context.state.proximity</code>
+                and <code>context.state.angleToCenter</code>
+            </li>
+            <li>
+                move forwards with consistent speed
+            </li>
+            <li>
+                fires when anything enters scanner
+                (including walls and enemy projectiles!)
+            </li>
+        </ul>
+        <pre class="click-select f6 pa3 br3 bg-translucent-black">
+var closest = context.state.proximity[0] || {};
+
+// when detecting a wall very nearby, turn towards center of arena
+if (closest.entityType == "wall") {
+    // face robot towards center of arena if too close to wall
+    context.action.desiredAngle = context.state.angleToCenter;
+}
+
+// always move forward - the divisor (/2) determines max speed/force
+context.action.desiredForce = context.state.maxForce/2;
+
+// fire at anything within scanner range
+if (context.state.scanner.ALL.length > 0)
+    context.action.desiredLaunch = true;
+        </pre>
+    </article>
+
+    <article class="lh-copy">
+        <h2 id="code-default" class="white retro-font">
+            DEFAULT
+        </h1>
+        <ul>
+            <li>
+                the default robot in trainer demos
+            </li>
+            <li>
+                moves forward randomly
+            </li>
+            <li>
+                turns away from walls using <code>context.state.proximity</code>
+                and <code>context.state.angleToCenter</code>
+            </li>
+            <li>
+                distinguishes between enemy and friendly robots
+            </li>
+            <li>
+                tracks and fires at active enemy robots
+                (not on same team)
+            </li>
+            <li>
+                avoids friendly (on same team), inactive robots
+            </li>
+            <li>
+                turns randomly
+            </li>
+        </ul>
+        <pre class="click-select f6 pa3 br3 bg-translucent-black">
+// randomly move forward
+if (Math.random() < 0.5) {
+    context.action.desiredForce = context.state.maxForce;
+}
+
+// detect closest entity via (short range) proximity alerts
+var closest = context.state.proximity[0] || {};
+
+// detect robot entity in front of robot via (short-medium range) scanner
+var front = context.state.scanner.robot[0] || false;
+
+if (closest.entityType == "wall") {
+    // face robot towards center of arena if too close to wall
+    context.action.desiredAngle = context.state.angleToCenter;
+} else if (front) {
+    if (front.active && front.team != context.state.team) {
+        // follow active enemy robots
+        context.action.desiredAngle = (
+            context.state.angle - (context.state.angle - front.angleFromRobot));
+        context.action.desiredLaunch = true;
+    } else {
+        // avoid inactive/friendly robots
+        dir = (front.angleFromRobot - context.state.angle) < 0 ? -1:1;
+        context.action.desiredAngle = context.state.angle - (dir * 0.174533);
+        context.action.desiredForce = context.state.maxForce / 2;
+    }
+} else if (Math.random() < 0.005) {
+    // face random direction
+    var maxvar = Math.PI / 4, // 45 degrees
+        random = (Math.random() * maxvar) - maxvar/2; // left or right
+        context.action.desiredAngle = context.state.angle + random;
+        context.action.desiredForce = 0; // tight turn
+}
+        </pre>
+    </article>
+</div>
+{% endblock %}

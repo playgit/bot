@@ -1,0 +1,273 @@
+<div class="fl w-100 w-50-l ph1 pr3-ns">
+    <h4 class="f3 retro-font mv3">
+        Robots
+    </h4>
+    <ul class="pl3">
+        <li>
+            Each robot has a "brain", consisting of functional code
+        </li>
+        <li>
+            There are two types of robots:
+            <ul class="pl3">
+                <li>
+                    <b>browserbots</b>
+                    run client-side in the browser
+                </li>
+                <li>
+                    <b>serverbots</b>
+                    run server-side and are uploaded browserbots
+                </li>
+            </ul>
+        </li>
+        <li>
+            Browserbots are used for development and testing
+            <ul class="pl3">
+                <li>
+                    Browserbots are always called
+                    <code>Debug &lt;number&gt;</code>
+                </li>
+                <li>
+                    Convert browserbots into serverbots via the
+                    <a href="/robot/update">Robot Manager</a>
+                </li>
+                <li>
+                    Serverbots run faster and have custom names and teams
+                </li>
+                <li>
+                    Serverbots are harder to debug
+                </li>
+            </ul>
+        </li>
+        <li>
+            <b>
+                Robots receive
+                <code>context</code>
+            </b>
+            - "brain" input and output:
+            <div>
+                <textarea
+                    rows="10"
+                    class="
+                        click-select
+                        mv1 f7 w-100 code
+                        shadow-3 theme-primary
+                        bg-dark-gray
+                        "
+                    readonly
+                    >{% include 'robot.context.sample.txt' %}</textarea>
+            </div>
+            <ul class="pl3">
+                <li>
+                    <code>context.state</code>
+                    contains current information about the robot
+                </li>
+                <li>
+                    robots have two main sensor inputs:
+                    <ul>
+                        <li>
+                            <code>context.state.scanner</code>
+                            list things in front of it
+                        </li>
+                        <li>
+                            <code>context.state.proximity</code>
+                            list things within close range
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <strong>
+                The "brain" sets
+                <code>context.action</code>
+                to control:
+            </strong>
+            <ul class="pl3">
+                <li>
+                    <strong>robot rotation</strong> /
+                    <code>.desiredAngle</code>
+                    <br />
+                    a number in radians,
+                    maximum possible per frame is stored in
+                    <code>context.state.maxRotate</code>
+                </li>
+                <li>
+                    <strong>robot forward movement</strong> /
+                    <code>.desiredForce</code>
+                    <br />
+                    a number representing force,
+                    maximum possible per frame is stored in
+                    <code>context.state.maxForce</code>
+                </li>
+                <li>
+                    <strong>projectile launch</strong> /
+                    <code>.desiredLaunch</code>
+                    <br />
+                    a boolean value, actual launch rate is
+                    limited by the server
+                </li>
+                <li>
+                    <strong>scan distance</strong> /
+                    <code>.desiredScan</code>
+                    <br />
+                    a number, far scans are narrower; near scans are wider
+                </li>
+            </ul>
+        </li>
+        <li>
+            <code>context.round</code> contains information
+            about the current round
+        </li>
+        <li>
+            <b>Robots are stateless</b> and do not "remember" anything
+            <div class="pl3">
+                Frame-to-frame storage is available with
+                <code>context.memory</code>
+            </div>
+        </li>
+        <li>
+            Code is run every frame,
+            60 frames = 1 server second
+        </li>
+        <li>
+            Robots are damaged by:
+            <b>projectiles</b>,
+            <b>robot bodies</b>,
+            <b>walls</b>
+        </li>
+        <li>
+            Serverbots are also damaged from
+            <b>syntax errors</b>; and
+            <b>brain timeouts</b>,
+            caused by hanging code
+            <div class="pl3">
+                Server-side damage show as blue sparks
+            </div>
+        </li>
+        <li>
+            Browserbots depend on the internet and run slower.
+        </li>
+        <li>
+            A faster way to code and test robots
+            is to <strong>run a local server</strong>.
+            This platform is open-source, can run offline locally.
+            The link is available in the page footer.
+        </li>
+    </ul>
+</div>
+
+<div class="fl w-100 w-50-l ph1 pl3-ns">
+    <h4 class="f3 retro-font mv3">
+        Competition Outline
+    </h4>
+    <p>
+        <b>Important:</b>
+        Rules may be updated in the interest of fair-play
+        -  the organisers will always announce these beforehand.
+    </p>
+    <p>
+        Competitions use a league and ranking system.
+    </p>
+    <ul class="pl3">
+        <li>
+            League group assignments are random.
+            The number of robots per group are
+            announced prior to the competition.
+        </li>
+        <li>
+            Each match has two groups of robots
+            battling several rounds.
+        </li>
+        <li>
+            Match ordering is random and can run concurrently.
+        </li>
+        <li>
+            The minimum number of rounds per match
+            is the the total number of
+            robots in the match.
+        </li>
+        <li>
+            A round lasts at least 1 minute.
+        </li>
+        <li>
+            When a round ends, robots are ranked based on:
+            <ol>
+                <li>
+                    survival, alive; followed by,
+                </li>
+                <li>
+                    closest to center; followed by,
+                </li>
+                <li>
+                    longest surviving; followed by,
+                </li>
+                <li>
+                    highest health; followed by,
+                </li>
+                <li>
+                    highest accuracy.
+                </li>
+            </ol>
+        </li>
+        <li>
+            Robots drawing at the same rank are penalised
+            by the number of tied robots,
+            e.g. three robots tied at rank 2, get rank 5 each.
+        </li>
+        <li>
+            Average ranking of robots
+            is displayed in a live leaderboard.
+        </li>
+    </ul>
+    <h4 class="f3 retro-font mv3">
+        PREPARE FOR BATTLE!
+    </h4>
+    <ul class="pl3">
+        <li>
+            Treat the Arena ID as secret.
+            Share it only if you have to.
+        </li>
+        <li>
+            Test with the presets,
+            <a href="/robot/samples">sample code</a>
+            and your own too!
+        </li>
+        <li>
+            <b>Always make offline copies of your work!</b>
+            <div class="pl3">
+                Browserbots are
+                not auto-saved for you.
+            </div>
+        </li>
+        <li>
+            Robots must be uploaded for competitions.
+            <ul class="pl3">
+                <li>
+                    The
+                    <a href="/robot/update">Robot Manager</a>
+                    uploads/updates robots.
+                </li>
+                <li>
+                    Serverbots reload brains every few seconds.
+                </li>
+                <li>
+                    Running battles do not pause during reloads.
+                </li>
+                <li>
+                    It is a valid strategy
+                    to update robots in the middle
+                    of a battle.
+                </li>
+                <li>
+                    Test before uploads, serverbots are harder to debug.
+                </li>
+            </ul>
+        </li>
+        <li>
+            Monitor robot performance via the leaderboard and live arenas.
+        </li>
+        <li>
+            Optionally have different brains with different strategies.
+        </li>
+    </ul>
+</div>

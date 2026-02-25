@@ -1,0 +1,272 @@
+.RobotControlPanel {
+    padding: 0.25rem;
+    transition: opacity 0.5s;
+
+    font-size: .875rem; /* f6 */
+    background: #555555; /* bg-mid-gray */
+    color: #eeeeee; /* light-gray */
+}
+
+.RobotControlPanel__Robot {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+}
+
+.RobotControlPanel__Robot > div {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+}
+
+div.RobotControlPanel__Robot__Name {
+    font-weight: bold;
+    background: black;
+    color: white;
+    cursor: pointer;
+    min-width: 60px;
+    padding: 0.25rem;
+    margin-right: 0.1rem;
+}
+
+/* robot state display */
+
+.RobotControlPanel__Robot__State {
+    border: 1px solid black;
+    border-right: 0;
+
+    border-color: #111111; /* b--near-black */
+    font-size: .75rem; /* f7 */
+    background: #555555; /* bg-mid-gray */
+}
+
+.RobotControlPanel__Robot__State:last-child {
+    border-right: 1px solid black;
+
+    border-color: #111111; /* b--near-black */
+}
+
+.RobotControlPanel__Robot__State span {
+    background: #333333;
+    color: #CCCCCC;
+    padding: 0.25rem;
+}
+
+.RobotControlPanel__Robot__State span:last-child {
+    background: #777777; /* bg-light-silver */
+    color: #EEEEEE;
+}
+
+/* control buttons */
+
+.RobotControlPanel__Controls {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-bottom: 0.5rem;
+}
+
+.RobotControlPanel__Controls > * {
+    flex-grow: 1;
+    padding: 0.5rem;
+    margin-right: 0.25rem;
+}
+
+.RobotControlPanel__Controls > button {
+    cursor: pointer;
+    box-shadow: 0 3px #333333;
+    margin-right: 0.25rem;
+
+    font-size: .75rem; /* f7 */
+    background: #555555; /* bg-mid-gray */
+    color: white;
+    font-weight: bold;
+}
+
+.RobotControlPanel__Controls > :last-child { margin-right: 0; }
+
+.RobotControlPanel__Controls > button:hover {
+    transform: translateY(1px);
+    box-shadow: 0 2px #999;
+}
+
+.RobotControlPanel__Controls > button:active {
+    box-shadow: 0 0px #999;
+    transform: translateY(2px);
+}
+
+/* general CollapsiblePanel styles */
+
+.RobotControlPanel .CollapsiblePanel__Header {
+    padding: 0.25rem;
+
+    background: #333333; /* bg-dark-gray */
+    font-size: .75rem; /* f7 */
+}
+
+.RobotControlPanel .CollapsiblePanel__Header > :first-child {
+    /* title */
+    white-space: nowrap;
+    margin-right: auto; /* flex: first item leftmost */
+    font-size: .875rem; /* f6 */
+}
+
+.RobotControlPanel .CollapsiblePanel__Header .__PanelControls {
+    margin-left: 0.25rem;
+}
+
+.RobotControlPanel .CollapsiblePanel textarea {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: auto;
+    white-space: nowrap;
+    background: #eaeaff;
+    border: 1px solid black;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 0;
+    outline: none;
+    resize: none;
+
+    font-family: Consolas, monaco, monospace; /* code */
+    font-size: .875rem; /* f6 */
+    background: black;
+    color: #00ff00;
+}
+
+/* panel-specific styling */
+
+.RobotControlPanel .__Toolbar {
+    display: flex;
+
+    font-size: .75rem; /* f7 */
+}
+
+.RobotControlPanel .__Toolbar > :first-child {
+    margin-right: auto;
+}
+
+.RobotControlPanel .__Toolbar button {
+    cursor: pointer;
+
+    background: #555555; /* bg-mid-gray */
+    border-color: #777777; /* b--gray */
+    color: white;
+}
+
+.RobotControlPanel .__Toolbar select {
+    cursor: pointer;
+    outline: none;
+
+    background: #555555; /* bg-mid-gray */
+    color: white;
+}
+
+.RobotControlPanel .CollapsiblePanel__Header .__Toolbar {
+    padding-left: 0.25rem;
+}
+
+.RobotControlPanel .CollapsiblePanel__Body .__Toolbar {
+    padding: 0.25rem;
+    background: #222222; /* bg-dark-gray */
+}
+
+.RobotControlPanel__Brain__Controls {
+    display:flex;
+    justify-content: space-between;
+}
+
+.RobotControlPanel__Brain__Presets {
+    width: 100%;
+    border: 0;
+    outline: none;
+    padding: 0.25rem;
+    border-top: 1px solid white;
+
+    border-color: #555555; /* b--mid-gray */
+    color: #19A974; /* light-gray */
+    background: #111111; /* bg-near-black */
+}
+
+.RobotControlPanel__Remove {
+    display: none;
+}
+
+.minimised { padding:0; margin: 0; }
+.minimised .RobotControlPanel__Remove { display: inline; }
+.minimised .RobotControlPanel__Robot { margin: 0; min-width: 80px; }
+.minimised .RobotControlPanel__Robot > div { display: none; }
+.minimised .RobotControlPanel__Robot > div.RobotControlPanel__Robot__Name {
+    display: flex;
+    flex-direction:row;
+    justify-content:space-between;
+    margin: 0;
+}
+.minimised .RobotControlPanel__Robot > div.RobotControlPanel__Robot__Name > span {
+    margin: 0;
+    padding: 0;
+}
+
+.RobotControlPanel.minimised > :not(.RobotControlPanel__Robot) { display: none; }
+
+.Transition__RobotControlPanel__Robot-appear {
+    opacity: 0;
+    transition: opacity 500ms;
+}
+
+.Transition__RobotControlPanel__Robot-appear-active {
+    opacity: 1;
+}
+
+
+/* flex mod */
+
+.RobotControlPanel.maximised {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    box-shadow: 0 0 10px #222;
+}
+
+.RobotControlPanel .__IconIDE { display:none; }
+.RobotControlPanel.maximised .__IconIDE { display: inline-block; }
+
+.RobotControlPanel.maximised .CollapsiblePanel {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    margin-bottom: 0.25rem;
+}
+
+.RobotControlPanel.maximised .CollapsiblePanel:last-child { margin-bottom: 0; }
+.RobotControlPanel.maximised .CollapsiblePanel.maximised { flex-grow: 1; }
+.RobotControlPanel.maximised .CollapsiblePanel.minimised { flex-shrink: 1; }
+
+.RobotControlPanel .CollapsiblePanel .CollapsiblePanel__Body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.RobotControlPanel .CollapsiblePanel .CollapsiblePanel__Body > div {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.RobotControlPanel .CollapsiblePanel .CollapsiblePanel__Body textarea {
+    flex-grow: 1;
+}
+
+.RobotControlPanel .CollapsiblePanel.maximised .CollapsiblePanel__Body { max-height: 100vh; }
+.RobotControlPanel .CollapsiblePanel.minimised .CollapsiblePanel__Body { max-height: 0vh; }
+
+.RobotControlPanel__StatusLine {
+    margin-top: auto;
+    padding: 0.2rem;
+    font-size: .75rem; /* f7 */
+    line-height: 1.5; /* lh-copy */
+}

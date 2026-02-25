@@ -1,0 +1,126 @@
+{
+    "state": {
+        "name": "Debug 1",
+        "team": "Team Debug 1",
+        "health": 85,
+        "position": {
+            "x": 450,
+            "y": 650
+        },
+        "angle": 2.1400183660255045,
+        "angleToCenter": 4.71238898038469,
+        "maxForce": 0.001,
+        "maxRotate": 0.272,
+        "scanner": {
+            "wall": [],
+            "robot": [
+                {
+                    "entityType": "robot",
+                    "id": 51322,
+                    "x": 192.43402603984921,
+                    "y": 349.9999999999999,
+                    "speed": 7.381,
+                    "angle": 3.141592653589793,
+                    "angleFromRobot": 6.283185307179585,
+                    "range": 142.43402603984921,
+                    "active": true,
+                    "name": "Debug 2",
+                    "team": "Team 2"
+                }
+            ],
+            "projectile": [
+                {
+                    "entityType": "projectile",
+                    "id": 52277,
+                    "x": 171.4173413305188,
+                    "y": 349.9999999999999,
+                    "speed": 10.503,
+                    "angle": 0,
+                    "angleFromRobot": 6.2831853071795845,
+                    "range": 121.41734133051881
+                }
+            ],
+            "ALL": [
+                {
+                    "entityType": "projectile",
+                    "id": 52277,
+                    "x": 171.4173413305188,
+                    "y": 349.9999999999999,
+                    "speed": 10.503,
+                    "angle": 0,
+                    "angleFromRobot": 6.2831853071795845,
+                    "range": 121.41734133051881
+                },
+                {
+                    "entityType": "robot",
+                    "id": 51322,
+                    "x": 192.43402603984921,
+                    "y": 349.9999999999999,
+                    "speed": 7.381,
+                    "angle": 3.141592653589793,
+                    "angleFromRobot": 6.283185307179585,
+                    "range": 142.43402603984921,
+                    "active": true,
+                    "name": "Debug 2",
+                    "team": "Team 2"
+                }
+            ]
+        },
+        "proximity": [
+            {
+                "entityType": "wall",
+                "id": 51314,
+                "x": -5,
+                "y": 350,
+                "speed": 0,
+                "angle": 0,
+                "angleFromRobot": 3.141592653589793,
+                "range": 26.35326595073043,
+                "entitySubtype": "west"
+            },
+            {
+                "entityType": "robot",
+                "id": 51322,
+                "x": 68.81672460300315,
+                "y": 345.59091911817507,
+                "speed": 2.744,
+                "angle": 2.9182367723982225,
+                "angleFromRobot": 6.0599183837452015,
+                "range": 43.54425745702567,
+                "active": true,
+                "name": "Debug 2",
+                "team": "Team 2"
+            }
+        ],
+        "lastDamage": [
+            {
+                "atFrame": 132,
+                "type": "collision",
+                "origin": {
+                    "entityType": "wall",
+                    "entitySubtype": "west"
+                }
+            },
+            {
+                "atFrame": 134,
+                "type": "hit",
+                "origin": {
+                    "entityType": "robot",
+                    "name": "Debug 2",
+                    "team": "Team 2"
+                }
+            }
+        ]
+    },
+    "round": {
+        "remaining": 50.5,
+        "active": 3
+    },
+    "memory": {},
+    "action": {
+        "desiredAngle": 0.05,
+        "desiredForce": 0.0005,
+        "desiredLaunch": false,
+        "desiredScan": 150
+    }
+}

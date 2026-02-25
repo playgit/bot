@@ -1,0 +1,21 @@
+.CollapsiblePanel {
+    border: 1px solid black;
+    margin: 0.2rem 0;
+}
+
+.CollapsiblePanel__Header {
+    padding: 0.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.CollapsiblePanel__Body {
+    overflow: hidden;
+}
+
+.CollapsiblePanel .__Toolbar .__toggle .__show { display: none; }
+.CollapsiblePanel .__Toolbar .__toggle .__hide { display: block; }
+
+.CollapsiblePanel.minimised .__Toolbar .__toggle .__hide { display: none; }
+.CollapsiblePanel.minimised .__Toolbar .__toggle .__show { display: block; }

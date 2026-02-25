@@ -1,0 +1,10 @@
+{
+    "id":"nothingbot",
+    "key":false,
+    "name":"nothingbot",
+    "team":"",
+    "brain":"/* does nothing */",
+    "version":1,
+    "updated":false,
+    "oldBrains":[]
+ }

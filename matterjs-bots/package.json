@@ -1,0 +1,55 @@
+{
+  "//1": "describes your app and its dependencies",
+  "//2": "https://docs.npmjs.com/files/package.json",
+  "//3": "updating this file will download and update your packages",
+  "name": "matterjs-bots",
+  "version": "1.0.2",
+  "description": "physics simulation of battling robots",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.3.1",
+    "express": "^4.19.2",
+    "express-nunjucks": "^2.2.5",
+    "matter-js": "^0.20.0",
+    "nodemon": "^3.1.14",
+    "nunjucks": "^3.2.4",
+    "poly-decomp": "^0.3.0",
+    "seedrandom": "^3.0.5",
+    "socket.io": "^4.8.3",
+    "vm2": "^3.10.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "url": "https://gitlab.sabah.io/kinabalu-coders/matterjs-bots"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "express",
+    "socketio",
+    "matterjs",
+    "simulation",
+    "robots",
+    "battle",
+    "arena",
+    "game"
+  ],
+  "nodemonConfig": {
+    "ignore": [
+      "battle/brains/drivers-ext/*.json",
+      "static/compstates/*.json",
+      "static/simlogs/*.json",
+      "static/reactjs/*.js",
+      "static/*.json",
+      "static/*.js",
+      "README.md"
+    ]
+  },
+  "author": "eeckart"
+}

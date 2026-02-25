@@ -1,0 +1,10 @@
+{
+    "id":"wanderbot",
+    "key":false,
+    "name":"wanderbot",
+    "team":"",
+    "brain":"if (context.state.scanner.wall.length > 0) {\r\n    // face robot towards center of arena if wall scanned\r\n    context.action.desiredAngle = context.state.angleToCenter;\r\n}\r\n\r\n// always move forward - the divisor (/5) determines max speed/force\r\ncontext.action.desiredForce = context.state.maxForce/4;",
+    "version":1,
+    "updated":"2022-11-20T11:10:32.499Z",
+    "oldBrains":[]
+ }

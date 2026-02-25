@@ -1,0 +1,103 @@
+<div class="fl w-100 w-50-l ph1 pr3-ns">
+    <h4 class="f3 retro-font mv3">
+        Arena
+    </h4>
+    <p>
+        When accessing an arena,
+        the page will look like this:
+    </p>
+    <img class="mv1 shadow-3" src="screenshots/ui.arena.png" />
+    <p>
+        Arenas only pause when:
+        <ul class="pl3">
+            <li>
+                <strong>Waiting for robot connection</strong>,
+                    usually with browser robots.
+                <br />
+                Displayed as a red "(precheck) ..." error
+                in the sidebar.
+                <br />
+                <i>Just connect a brain via the Robot Control Panel.</i>
+            </li>
+            <li>
+                <strong>Other robot errors</strong>
+                <br />
+                Displayed in sidebar as red text
+                under a robot.
+            </li>
+            <li>
+                <strong>The simulation has stopped</strong>
+                <br />
+                Notification shown at the top of the screen.
+            </li>
+        </ul>
+    </p>
+    <p>
+        Additional details are shown below the current Arena:
+    </p>
+    <p>
+        Get a
+        <strong>Robot ID and Key</strong>
+        from Arenas, which can be used to upload robots via the
+        <a href="/robot/update">Robot Manager</a>.
+        Direct uploads from the Robot Control Panel is also possible.
+    </p>
+    <p>
+        The Robot ID can be used
+        to add uploaded robots into other arenas via the
+        <a href="#container-arena-builder">Arena Builder</a>.
+    </p>
+</div>
+
+<div class="fl w-100 w-50-l ph1 pl3-ns">
+    <h4 class="f3 retro-font mv3">
+        Robot Control Panel
+    </h4>
+    <p>
+        To write and test client-side robots from the browser...
+    </p>
+    <ol class="pl3">
+        <li>
+            Open an
+            <a href="#container-arena-builder">Arena Builder</a>
+            <a href="#container-builder-presets">preset</a>
+            that has at least one
+            "<strong>browserbot</strong>" configured
+        </li>
+        <li>
+            Click on the black box to open the
+            <strong>Robot IDE</strong>
+            <br />
+            <img class="mv1 shadow-3" src="screenshots/ui.rcp.start.png" />
+        </li>
+        <li>
+            The
+            <strong>Robot Integrated Development Environment (IDE)</strong>
+            is where you test code:
+            <br />
+            <img class="mv1 shadow-3" src="screenshots/ui.rcp.open.png" />
+        </li>
+        <li>
+            Add/edit code in the
+            <strong>Brain/Code Editor</strong>
+        </li>
+        <li>
+            "Connect" - the arena will start after a few seconds
+            <div class="pl3">
+                Pressing the button again will toggle the connection
+            </div>
+        </li>
+        <li>
+            "Upload" stores code into the server,
+            "retrieve" loads it back
+            <ul class="pl3">
+                <li>
+                    Upload robots as many times as required
+                </li>
+                <li class="b">
+                    Only one robot will be stored per arena
+                </li>
+            </ul>
+        </li>
+    </ol>
+</div>

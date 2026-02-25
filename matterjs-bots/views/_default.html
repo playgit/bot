@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="open-source programmable robot battle simuiator">
+<meta name="keywords" content="programming, simulation, robot, javascript, borneo, sabah">
+<meta name="author" content="Kinabalu Coders">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+<link rel="shortcut icon" type="image/png" href="/artwork/ebotmasters.icon.64x64.png"/>
+<link rel="icon" type="image/png" href="/artwork/ebotmasters.icon.64x64.png">
+
+<link rel="stylesheet" href="/{{ config.cdn or '' }}/unpkg.com/tachyons@4.12.0/css/tachyons.min.css" />
+<link rel="stylesheet" href="/notification.css" />
+<link rel="stylesheet" href="/brand.css" />
+
+<script src="/ui.notifications.js"></script>
+
+{% block head %}{% endblock %}
+</head>
+<body id="top" class="sans-serif">
+    <div class="bg-body-gradient"></div>
+    <div id="notification" class="f6 w-100 pa2 pa3-ns shadow-3">
+        <div id="notification-container"
+            class="flex justify-between items-center ml-auto mr-auto">
+            <div class="message flex-grow-1 lh-copy tj tl-ns"></div>
+            <div class="actions flex-shrink-1 pl2 pl3-ns"></div>
+        </div>
+    </div>
+    <main>{% block body %}{% endblock %}</main>
+    </footer>
+</body>
+{% block postbody %}{% endblock %}
+<script src="/util.clickSelect.js"></script>
+<script>
+// apply glitch animation
+setInterval(() => {
+    document.querySelectorAll('.glitch-every-x').forEach(el => {
+        el.classList.remove('animate-glitch');
+        setTimeout(() => {
+            el.classList.add('animate-glitch');
+        }, 1);
+    })
+}, 5000);
+</script>
+</html>

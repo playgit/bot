@@ -1,0 +1,413 @@
+{% extends "_default.html" %}
+
+{% block head %}
+<title>Competition :: RBN-CODE</title>
+<style>
+.arena-info {
+    min-width: 200px;
+}
+
+.arena-square:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+#overlay-arena-limiter {
+    width: 95vw;
+    height: 95vw;
+}
+
+@media (orientation: landscape) {
+    #overlay-arena-limiter {
+        width: 95vh;
+        height: 95vh;
+    }
+}
+
+#overlay-arena {
+    z-index: 1000;
+    top: -100%;
+    transition: top 1.0s ease;
+}
+
+#overlay-arena.shown {
+    top: 0%;
+}
+
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="fixed w-100 vh-100"
+     id="overlay-arena">
+    <div class="absolute absolute--fill bg-transparent
+                flex justify-center items-center">
+        <div id="overlay-arena-limiter" class="shadow-3">
+            <div class="w-100 arena-square flex">
+                <iframe
+                    id="overlay-iframe"
+                    class="flex-grow-1"
+                    scrolling="no"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ph4">
+
+    <!-- standardised header -->
+    <h1 class="
+            f1 ma0 pt4 fw6 tc
+            flex justify-center items-center">
+        <a href="/" title="back to front page..." class="mr3">
+            <img src="/artwork/logo.ebotmasters.medium.png" width="80" />
+        </a>
+        <span class="title-font theme-primary dn">
+            RBN-CODE
+        </span>
+        <div class="tl lh-copy">
+            <div class="
+                    di db-m f2
+                    flex flex-column
+                    retro-font">
+                {{ compid }}
+            </div>
+            <div class="f7 tl normal">
+                <span id="comp-timeframe"></span>
+            </div>
+        </div>
+    </h1>
+    <!-- END: standardised header -->
+
+    <div class="cf">
+        <div class="mb3 fl w-100 w-40-l tc">
+            <h2 class="retro-font">
+                Leaderboard
+            </h2>
+            <table class="center collapse">
+                <thead>
+                    <tr class="bb b--white-40">
+                        <th class="pa3">
+                            Robot
+                        </th>
+                        <th class="pa3">
+                            Average Rank
+                        </th>
+                        <th class="pa3">
+                            Rounds
+                        </th>
+                    </tr>
+                </thead>
+                <tbody
+                    class="striped--near-white"
+                    id="tbody-robot-ranks">
+                    <tr>
+                        <td class="pa3 tc" colspan="4">
+                            Loading...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="f7 pv3">
+                <a class="dn" href="#" id="download-csv">csv</a>
+            </div>
+        </div>
+        <div class="fl w-100 w-60-l tc">
+            <h2>
+                <span class="retro-font">
+                    Arenas
+                </span>
+                <span class="f6">
+                    <input
+                        type="checkbox"
+                        id="kiosk-mode" />
+                    Kiosk
+                </span>
+            </h2>
+            <div id="list-lineup"
+                 class="w-100 flex flex-wrap pa3 justify-center">
+                <div class="flex-grow-1 center">
+                    Loading...
+                </div>
+            </div>
+            <div class="f7 pv3">
+                <p>
+                    Arranged by load balancers
+                    <sup>(number)</sup> and
+                    order of execution
+                </p>
+                <p>
+                    A load balancer can process
+                    one arena at a time
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block postbody %}
+<script>window.compid = '{{ compid|safe }}';</script>
+<script src="/util.friendlyTimes.js"></script>
+<script src="/util.fetchTimeout.js"></script>
+<script src="/util.tagsafe.js"></script>
+<script>
+
+let compTimeframe = document.querySelector('#comp-timeframe'),
+    tbodyRobotRanks = document.querySelector('#tbody-robot-ranks'),
+    listLineup = document.querySelector('#list-lineup'),
+    downloadLink = document.querySelector('#download-csv');
+    csvBlob = null;
+
+window.arenas = [];
+
+const get_current_competition = () => {
+    fetchTimeout('/api/competition/' + window.compid)
+        .then(res => res.json())
+        .then(data => {
+            // leaderboard + csv
+
+            let htmlRanks = '',
+                csvRows = [["ID", "Robot", "Team", "Average Rank"]];
+
+            if (data.byRobots && data.byRobots.length > 0) {
+                console.log(data.byRobots);
+                data.byRobots.forEach(row => {
+                    let rounds = row.rounds,
+                        avg_rank = rounds > 0
+                            ? row.points / rounds : false;
+
+                    csvRows.push([
+                        row.entityID,
+                        tagsafe(row.entityName),
+                        tagsafe(row.entityTeam),
+                        avg_rank ? avg_rank : ""
+                    ]);
+
+                    htmlRanks += '' +
+                        '<tr class="bb b--white-20">' +
+                            '<td class="pa2 nowrap" title="' +
+                                // tooltip: robot team
+                                'Team: ' + tagsafe(row.entityTeam) + '">' +
+                                // robot name
+                                tagsafe(row.entityName) +
+                            '</td>' +
+                            '<td class="pa2 tc">' +
+                                '<span title="' + avg_rank + '">' +
+                                    (avg_rank ? avg_rank.toFixed(1)
+                                    : '') +
+                                '</span>' +
+                            '</td>' +
+                            '<td class="pa2 tc">' + rounds + '</td>' +
+                        '<tr>';
+                });
+            } else {
+                htmlRanks = '' +
+                    '<tr>' +
+                        '<td class="tc pa3" ' +
+                            'colspan="4">No Data</td>' +
+                    '</tr>';
+            }
+            tbodyRobotRanks.innerHTML = htmlRanks;
+
+            if (csvRows.length > 1 && downloadLink) {
+                csvRows = csvRows.map(row => row.join(',')).join('\n');
+                if (csvBlob !== null) URL.revokeObjectURL(csvBlob);
+                csvBlob = new Blob([csvRows], { type: 'text/csv' });
+                downloadLink.href = URL.createObjectURL(csvBlob);
+                downloadLink.download = 'leaderboard.csv';
+                downloadLink.classList.remove('dn')
+            }
+
+            if (data) {
+                // competition data
+                let text_start = '',
+                    text_end = '';
+                if (data.created) {
+                    text_start = toLocalText(new Date(data.created));
+                }
+                if (data.completed) {
+                    if (data.completed === true) {
+                        text_end = "complete";
+                    } else {
+                        text_end = toLocalText(new Date(data.completed));
+                    }
+                } else {
+                    text_end = "ongoing";
+                }
+                // display based on whats available
+                if (text_start && text_end) {
+                    text_start = text_start.split(" ");
+                    text_end = text_end.split(" ");
+                    // discard end date if same as start
+                    if (text_start[0] == text_end[0])
+                        text_end.shift();
+                    compTimeframe.innerText = text_start.join(' ') +
+                        ' - ' + text_end.join(' ');
+                } else if (text_start) {
+                    compTimeframe.innerText = text_start;
+                } else {
+                    compTimeframe.innerText = text_end;
+                }
+            } else {
+                compTimeframe.innerText = 'No Data Available';
+            }
+
+            // match and arena data
+            let htmlArenas = '';
+            if (data.byArenas) {
+                window.arenas = []; // clear when data received
+                let byBalancer = [];
+                data.byArenas.forEach(lineup => {
+                    // html: robot ranks for arena
+                    let robot_results = [];
+                    lineup.robots.forEach(
+                        R => robot_results.push(
+                            [
+                                lineup.rounds
+                                    ? R.score/lineup.rounds
+                                    : false,
+                                R.name,
+                                R.team,
+                            ]));
+                    let htmlRanking = '';
+                    robot_results
+                        .sort((a, b) =>
+                            a[0] > b[0] ?  1 :
+                            a[0] < b[0] ? -1 : 0)
+                        .forEach(R => {
+                            htmlRanking += '' +
+                                '<div class="f7 tc">' +
+                                    '<span class="dib mv1 mh2 ba ph1" ' +
+                                        // tooltip: robot team
+                                        'title="Team: ' +
+                                        tagsafe(R[2]) + '">' +
+                                        // robot name
+                                        tagsafe(R[1]) +
+                                    '</span>' +
+                                    '<span title="average round rank">' +
+                                        (R[0] ?
+                                            R[0].toFixed(1)
+                                            : '') + ' ' +
+                                    '</span> ' +
+                                '</div>';
+                        });
+                    // determine arena balancer
+                    let balancer = false,
+                        althost = '';
+                    if (data.balancerByArenaID &&
+                            data.balancerByArenaID[lineup.arenaid]) {
+                        balancer = data.balancerByArenaID[lineup.arenaid];
+                        // dev: local multi-process, no load balancer
+                        if (location.port) {
+                            // dev: single process, no load balancer
+                            if (!balancer[1])
+                                balancer[1] = String(location.port);
+                            // build arena host path
+                            althost = '' +
+                                location.protocol + '//' +
+                                location.host.split(':')[0] +
+                                ':' + balancer[1];
+                        }
+                    };
+                    // html: rounds
+                    let link_arena = althost + '/arena/' +
+                        lineup.arenaid + '?arenaonly=1';
+                    // track arenas
+                    window.arenas.push([
+                        link_arena,
+                        lineup.started,
+                        lineup.rounds,
+                        data.maxRounds]);
+                    // append html by [1]balancer port
+                    byBalancer[balancer[1]] = (
+                        byBalancer[balancer[1]] || '') +
+                        '<div class="arena-info flex-shrink-1 br1 ' +
+                            'lh-copy pa2 ma1 bb ba b--white-40">' +
+                            '<div class="mt1">' +
+                                '<a class="' +
+                                    (lineup.started
+                                        ? 'theme-complete'
+                                        : 'theme-incomplete') + ' link b" ' +
+                                        'href="' + link_arena + '">' +
+                                    'Groups: ' +
+                                    lineup.matchid + ' ' +
+                                    '<sup>' +
+                                        (balancer ? balancer[0] : '') +
+                                    '</sup>' +
+                                '</a>' +
+                            '</div>' +
+                            '<div class="f6 mt1 ' +
+                                (lineup.rounds == data.maxRounds
+                                    ? 'theme-complete'
+                                    : 'theme-incomplete') + '">' +
+                                'rounds: ' +
+                                    lineup.rounds +
+                                    ' / ' +
+                                    data.maxRounds +
+                            '</div>' +
+                            '<div class="mt1 mb1">' +
+                                htmlRanking +
+                            '</div>' +
+                        '</div>';
+
+                    htmlArenas = byBalancer.join('');
+                });
+            } else {
+                htmlArenas = '' +
+                    '<div class="center pa3">' +
+                        'No Data' +
+                    '</div>';
+            }
+            listLineup.innerHTML = htmlArenas;
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}
+
+setInterval(get_current_competition, 5000);
+get_current_competition();
+
+</script>
+<script>
+
+var cbKiosk = document.querySelector('#kiosk-mode'),
+    overlayArena = document.querySelector('#overlay-arena'),
+    overlayIFrame = document.querySelector('#overlay-iframe'),
+    every = 20000,
+    showfor = 10000,
+    latency = 2000;
+
+const showOverlay = (url) => {
+    console.log('[overlay]', url);
+    overlayIFrame.src = url;
+    setTimeout(() => {
+        overlayArena.classList.add('shown');
+    }, latency);
+};
+
+const hideOverlay = () => {
+    overlayArena.classList.remove('shown');
+    console.log('[overlay] hidden');
+}
+
+setInterval(() => {
+    if (!cbKiosk.checked) return;
+
+    // filter by [1]started and [2]completed rounds < [3]max rounds
+    let active = (window.arenas || []).filter(x => (x[1] && x[2] < x[3]));
+
+    if (active.length > 0) {
+        let url = active[Math.floor(Math.random() * active.length)];
+        showOverlay(url);
+        setTimeout(hideOverlay, showfor + latency);
+    } else {
+        console.log('no arena was selected');
+    }
+}, every + latency);
+
+</script>
+{% endblock %}
+red

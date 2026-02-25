@@ -1,0 +1,273 @@
+<div class="ph1">
+    <h4 class="f3 retro-font mv3">
+        Changelog
+    </h4>
+    <ul class="pl3">
+        <li>
+            <b>2025-09-23</b>
+            <ul class="flatlist">
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    competition rankings: 
+                    <b>survival</b>, <b>closer to center</b> 
+                    gets you closer to the action
+                </li>
+            </ul>
+        </li>
+        <li>
+            <b>2023-02-19 to 2023-02-26</b>
+            <ul class="flatlist">
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b>
+                        3D arena
+                    </b>
+                    (<a href="/arena/trainerdemo?renderer=babylonjs">preview</a>)
+                    powered by
+                    <a href="https://babylonjs.com/">babylon.js</a>
+                </li>
+                <li>
+                    <a href="/3dmodelviewer">3d model viewer</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <b>2023-01-27 to 2023-02-13</b>
+            <ul class="flatlist">
+                <li>
+                    overlay manager for branding, attract
+                    (<a href="/arena/overlaytest?injectlocal=/attract-mode/overlays.dancebot.js&manualBrains=dancebot,dancebot,dancebot,dancebot">2d sample</a>)
+                </li>
+                <li>
+                    pausable results
+                </li>
+                <li>
+                    arena visuals: eliminate canvas taint
+                </li>
+            </ul>
+        </li>
+        <li>
+            <b>2022-12-26 to 2023-01-09</b>
+            <ul class="flatlist">
+                <li>
+                    tabbed content on front page
+                </li>
+                <li>
+                    socket.io security fix
+                </li>
+            </ul>
+        </li>
+        <li>
+            <b>2022-12-15 to 2022-12-25</b>
+            <ul class="flatlist">
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b>round status</b>:
+                    <code>context.round</code>
+                </li>
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b>robot health</b>:
+                    <code>context.state.health</code>
+                </li>
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b>distance to center</b> for rankings
+                </li>
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b>retro-gritty design</b>
+                </li>
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b><a href="#container-arena-builder">Arena Builder</a></b>
+                    (old links still work)
+
+                </li>
+                <li>
+                    unified notifications
+                </li>
+                <li>
+                    change: last 1000 logs retained per arena
+                </li>
+            </ul>
+        </li>
+        <li>
+            <b>2022-12-06 to 2022-12-11</b>
+            <ul class="flatlist">
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b>arena replay</b>:
+                    20 most recent
+                </li>
+                <li>
+                    show shock/explosions in replays
+                </li>
+                <li>
+                    optimisation:
+                    reduce replay storage (~80%)
+                </li>
+                <lI>
+                    optimisation:
+                    client-side render via lookups
+                </li>
+                <lI>
+                    standardise css
+                </lI>
+            </ul>
+        </li>
+        <li>
+            <b>2022-11-28 to 2022-12-04</b>
+            <ul class="flatlist">
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b>sound effects, music</b>
+                </li>
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b>robots spark when code crashes</b>
+                </li>
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b>damage log</b>:
+                    <code>context.state.lastDamage</code>
+                </li>
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b>max 8 robots per server arena</b></code>
+                </li>
+                <li>
+                    optimisation: reduce bandwidth usage (~40%)
+                </li>
+                <li>
+                    optimisation:
+                    <code>forEach/map/reduce</code>
+                    to faster <code>for</code>
+                </li>
+                <li>
+                    competition page fast load,
+                    show started arenas
+                </li>
+                <li>
+                    max 1000 rounds
+                    (from &infin;), 12 hours (from 24)
+                </li>
+            </ul>
+        </li>
+        <li>
+            <b>2022-11-21 to 2022-11-25</b>
+            <ul class="flatlist">
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b>competition mode</b>:
+                    auto-resume;
+                    public dashboard;
+                    shuffle robots, places
+                </li>
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b>rule updates</b>:
+                    start on any side of arena;
+                    penalise rank by robots tied;
+                    square arena;
+                    robot takes damage from code crash;
+                </li>
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b>
+                        <a class="b"
+                            href="https://gitlab.sabah.io/kinabalu-coders/matterjs-bots/tree/master">
+                            source code release
+                        </a>
+                    </b>
+                </li>
+                <li>
+                    direct upload from Robot Control Panel
+                </li>
+                <li>
+                    start arenas independently, with optional lock
+                </li>
+                <li>
+                    live reload of uploaded brains
+                </li>
+                <li>
+                    unique robot ID and Key in each arena
+                </li>
+                <li>
+                    notify on simulation stopped,
+                    incorrect balancer
+                </li>
+            </ul>
+        </li>
+        <li>
+            <b>2022-11-13 to 2022-11-20</b>
+            <ul class="flatlist">
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b><a href="/robot/samples">robot sample code</a></b>
+                </li>
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b><a href="/robot/update">robot manager</a></b>
+                        for robot upload
+                </li>
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b><a href="/api">API dashboard</a></b>
+                    for backend control
+                </li>
+                <li>
+                    <span class="b f7 ph1 dib white bg-dark-blue">NEW</span>
+                    <b>server-side arena</b>, with uploaded robots
+                </li>
+                <li>
+                    Robot Control Panel:
+                    copy <code>context</code>; big buttons
+                </li>
+                <li>
+                    local cdn for js/css
+                </li>
+                <li>
+                    limit arena ID characters
+                </li>
+                <li>
+                    multiprocess:
+                    multi-core;
+                    IPC state sharing
+                </li>
+                <li>
+                    standardised <code>context</code> for
+                    server/browser brains
+                </li>
+                <li>
+                    results data as downloadable csv
+                </li>
+                <li>
+                    rule upgrade: ranking by
+                    time, health, accuracy
+                </li>
+                <li>
+                    nginx load-balancer support
+                </li>
+                <li>
+                    socket.io upgraded to 4.5.3 (from 2.3.1)
+                </li>
+                <li>
+                    random arena ID, browser persistence
+                </li>
+                <li>
+                    improve page design and documentation
+                </li>
+                <li>
+                    editor bugfixes:
+                    erratic entry,
+                    validation
+                </li>
+                <li>
+                    concurrency bugfix:
+                    flashing/jumping robots
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,175 @@
+* {
+    box-sizing: border-box;
+}
+
+#container-ui {
+    padding: 0.5rem;
+    padding-top: 0.5rem;
+}
+
+/* ring display */
+
+#primary {
+    overflow: hidden;
+}
+
+#primary #ring {
+    /* expand as large as possible */
+    flex: 1 1 100%;
+    overflow: hidden;
+}
+
+#primary #side {
+    width: 300px;
+    min-width: 230px;
+    transition:
+        width 0.1s ease,
+        min-width 0.1s ease,
+        margin 0.1s ease;
+}
+
+#primary #side.closed {
+    width: 0px;
+    min-width: 0px;
+    margin: 0rem;
+}
+
+.tab {
+    left: -3.5rem;
+    z-index: 3;
+}
+
+.tab.top {
+    top: -2px;
+}
+
+.tab button.toggle-display {
+    border-right: 0;
+    width: 3.5rem;
+}
+
+#ring .sliding-bar {
+    width: 330px;
+    bottom: 5px;
+    left: -292px;
+    transition: left 0.5s ease;
+}
+
+#ring .simulation-state {
+    left: 0.75rem;
+    top: 0.75rem;
+}
+
+.healthbar {
+    height: 30px;
+}
+
+.healthbar .bar {
+    width: 0.3rem;
+}
+
+/* arena */
+
+#container-arena {
+    box-sizing: content-box;
+    overflow: hidden;
+    height: calc(100vh - 125px);
+}
+
+#arena {
+    display: block;
+    box-sizing: content-box;
+    transition: transform 0.1s ease;
+}
+
+/* sidebar */
+
+#container-robots {
+    max-height: calc(100vh - 230px); /* very small landscape mobile screens */
+}
+
+#container-tools {
+    margin-top: auto; /* with flex, aligned to bottom of sidebar */
+    min-width: 200px; /* prevent reflow when sidebar closes */
+}
+
+/* audio support */
+
+body.audio-enabled .with-audio-dn { display: none; }
+body.audio-enabled .with-audio-db { display: block; }
+
+/* replay */
+
+body.with-replay-controls #ring .sliding-bar { left: 5px; }
+body.with-replay-controls .hide-on-replay { display: none; }
+
+/* misc utility classes */
+
+.opaque-on-hover {
+    opacity: 0.5;
+    transition: left 0.3s ease;
+}
+
+.opaque-on-hover:hover { opacity: 1.0; }
+
+/* colors and styles, unique to arena */
+
+#container-arena {
+    box-shadow: inset 0 0 10px #222;
+
+    border: 4px solid
+        rgba(55,110,55,0.5);
+
+}
+
+#container-arena.edge-top {
+    border-top: 4px solid
+        rgba(99, 99, 99, 0.6);
+}
+
+#container-arena.edge-bottom {
+    border-bottom: 4px solid
+        rgba(99, 99, 99, 0.6);
+}
+
+#container-arena.edge-left {
+    border-left: 4px solid
+        rgba(99, 99, 99, 0.6);
+}
+
+#container-arena.edge-right {
+    border-right: 4px solid
+        rgba(99, 99, 99, 0.6);
+}
+
+.main-color {
+    color: #ff007e;
+}
+
+.second-color {
+    color: #18d8ff;
+}
+
+.third-color {
+    color: #c5fe00;
+}
+
+.robot-damaged {
+    color: rgb(255, 218, 0); /* yellow */
+}
+
+.robot-undamaged {
+    color: rgb(25, 169, 116); /* green */
+}
+
+.robot-fatal-error {
+    color: rgb(255, 65, 54); /* red */
+}
+
+.bg-robot-active {
+    background-color: rgba(94, 44, 165, 0.6); /* purple, 0.7a */
+}
+
+.bg-robot-inactive {
+    background-color: rgba(231, 4, 15, 0.6); /* dark-red 0.7a */
+}

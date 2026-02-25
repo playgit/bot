@@ -1,0 +1,397 @@
+{% extends "_default.html" %}
+
+{% block head %}
+<title>Arena :: RBN-CODE</title>
+
+<script>window.balancerid='{{ balancerid }}';</script>
+<script>window.arenaid='{{ arenaid }}';</script>
+<script>window.__RobotUpload = ['{{ robotid }}', '{{ robotkey }}'];</script>
+{% if arenapost %}<script>window.__POST = {forceNew: '{{ arenapost.forceNew }}', manualBrains: '{{ arenapost.manualBrains }}'}</script>{% endif %}
+
+{% if arenaonly %}
+    <style>
+        #robot-control-panel { display: none; }
+        #side { display: none; }
+        #container-ui { height: 100vh; padding: 0; }
+        #primary { height: 100%; }
+        #ring > #container-arena { height: 100%; }
+        #ring > #container-arena.edge-top { border: 0; }
+        #ring > #container-arena.edge-right { border: 0; }
+        #ring > #container-arena.edge-left { border: 0; }
+        #ring > #container-arena.edge-bottom { border: 0; }
+        body { overflow: hidden; }
+    </style>
+{% else %}
+    <script src="/{{ config.cdn or '' }}/unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
+    <script src="/{{ config.cdn or '' }}/unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="/{{ config.cdn or '' }}/unpkg.com/react-transition-group/dist/react-transition-group.min.js"></script>
+
+    <!-- ROBOT CONTROL PANEL -->
+
+    <script src="/util.robotCompiler.js"></script>
+
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="/reactjs/CollapsiblePanel.css" />
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="/reactjs/RobotControlPanel.css" />
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="/reactjs/RobotBar.css" />
+
+    <script src="/reactjs/CollapsiblePanel.js"></script>
+    <script src="/reactjs/RobotControlPanel.js"></script>
+    <script src="/reactjs/RobotBar.js"></script>
+
+    <script src="/arena.robotbar.js"></script>
+{% endif %}
+
+<!-- ARENA CORE -->
+
+<script src="/{{ config.cdn or '' }}/cdn.socket.io/4.5.3/socket.io.min.js"></script>
+<script src="/{{ config.cdn or '' }}/cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.core.min.js"></script>
+
+<script src="/util.lookups.js"></script>
+<script src="/util.tagsafe.js"></script>
+<script src="/util.fetchTimeout.js"></script>
+<script src="/util.friendlyTimes.js"></script>
+<script src="/util.colorGradient.js"></script>
+<script src="/util.uploadJSON.js"></script>
+
+<script src="/arena-audio.js"></script>
+<script src="/arena.replayer.js"></script>
+<script src="/arena-visuals.js"></script>
+<script src="/arena-overlay.js"></script>
+{% for path in injectlocal %}
+<!-- injectlocal --><script src="{{ path }}"></script>{% endfor %}
+{% if renderer == "default" %}
+<!-- 2D -->
+<script src="/animator.js"></script>
+<script src="/arena-vectors.js"></script>
+<script src="/arena.draggable.js"></script>
+<script src="/arena.renderer.basic.js"></script>
+{% elif renderer == "babylonjs" %}
+<!-- BABYLON 3D -->
+<script src="/{{ config.cdn or '' }}/unpkg.com/earcut@2.1.1/dist/earcut.min.js"></script>
+<script src="/{{ config.cdn or '' }}/cdn.babylonjs.com/babylon.js"></script>
+<script src="/{{ config.cdn or '' }}/cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+<script src="/arena.renderer.3d.test-assets.js"></script>
+<script src="/arena.renderer.3d.animator.js"></script>
+<script src="/arena.renderer.3d.camera.js"></script>
+<script src="/arena.renderer.3d.robots.js"></script>
+<script src="/arena.renderer.3d.visual-bridge.js"></script>
+<script src="/arena.renderer.3d.js"></script>
+{% endif %}
+<script src="/arena.sidebar.js"></script>
+<script src="/arena.init.js"></script>
+<script src="/arena.init.tools.js"></script>
+
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="/{{ config.cdn or '' }}/unpkg.com/tachyons@4.12.0/css/tachyons.min.css" />
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="/{{ config.cdn or '' }}/unpkg.com/tachyons@4.12.0/src/_debug-grid.css" />
+
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="/arena.css" />
+{% endblock %}
+
+{% block body %}
+<div id="container-ui">
+    <div id="robot-control-panel"
+        class="
+            relative
+            v-mid
+            w-100 pa1 ma0 mb2
+            bg-translucent-black">
+    </div>
+
+    <div id="primary" class="relative flex w-100">
+        <div id="ring"
+                class="
+                    close-sidebar-on-tap
+                    relative"
+                data-closetarget="#side">
+            <div style="z-index:1;"
+                    class="
+                        simulation-state
+                        absolute
+                        f7">
+                <span class="db dib-ns world mb1 nowrap"></span>
+                <span class="db dib-ns arena mb1 nowrap"></span>
+            </div> <!-- .simulation-state -->
+            <div style="z-index: 2;"
+                    class="
+                        sliding-bar
+                        opaque-on-hover
+                        absolute flex items-center">
+
+                <div id="container-replay"
+                        class="
+                            flex items-center
+                            ba b--gray bg-white pv1 ph1">
+                    <div>
+                        <button
+                            title="back 30 frames"
+                            class="
+                                seek pointer
+                                f6 db ba pa1 ma0 mr1"
+                            data-records="-30"
+                            type="button" />
+                            &#9194;
+                        </button>
+                    </div>
+                    <div>
+                        <button
+                            title="back 15 frames"
+                            class="
+                                seek pointer
+                                f6 db ba pa1 ma0 mr1"
+                            data-records="-15"
+                            type="button" />
+                            &#9664;&#65039;
+                        </button>
+                    </div>
+                    <div>
+                        <button
+                            title="play/pause"
+                            class="
+                                play pointer
+                                f6 db ba pa1 ma0 mr1"
+                            type="button" />
+                            &#9199;&#65039;
+                        </button>
+                    </div>
+                    <div class="flex-grow-1">
+                        <input
+                            title="position"
+                            class="playhead v-mid pointer w-100"
+                            type="range"
+                            min="1"
+                            max="1" />
+                    </div>
+                    <div class="flex-shrink-1">
+                        <input
+                            title="speed"
+                            style="direction: rtl; width: 50px;"
+                            class="playrate v-mid pointer"
+                            type="range"
+                            min="50"
+                            step="20"
+                            max="500" />
+                    </div>
+                    <div>
+                        <a title="save locally..."
+                            class="
+                                download pointer
+                                f6 db ba b--gray pa1 ma0 ml2">
+                            &#128190;
+                        </a>
+                    </div>
+                </div>
+                <div class="v-mid">
+                    <button
+                        title="fit arena"
+                        class="
+                            fit-arena
+                            pointer
+                            f6 db pa1 ml2">
+                        &#128306;
+                    </button>
+                </div>
+            </div> <!-- .sliding-bar -->
+
+            <div id="container-arena" class="bg-hex-purple">
+                <canvas id="arena"></canvas>
+            </div>
+        </div>
+
+        <div id="side"
+                class="
+                    relative
+                    toggle-parent
+                    f7 ma0 pa0
+                    bg-translucent-black"
+                style="z-index: 3;">
+            <div class="tab top absolute">
+                <button style="
+                            border-right: 0;
+                            border-top: 0;
+                            background-color: #0f2925;
+                            border-color: rgba(99,99,99, 0.8);"
+                        class="
+                            toggle-display
+                            f5 pv3 pa2 mr1 pointer
+                            bw2 ba">
+                    &#128736;&#65039;
+                </button>
+            </div> <!-- #side [toggle] -->
+            <div class="flex flex-column h-100 pa1">
+                <div class="
+                        hide-on-replay
+                        relative
+                        flex-shrink-1 flex-grow-0">
+                    <div class="flex items-center mv1">
+
+                        <button
+                            title="restart"
+                            class="
+                                pointer
+                                f6 db ba pa1 ma0
+                                bg-translucent-white"
+                            data-command="debug sim restart">
+                            &#9198;&#65039;
+                        </button>
+                        <button
+                            title="pause"
+                            class="
+                                pointer
+                                f6 db ba pa1 ma0 mr2
+                                bg-translucent-white"
+                            data-command="debug sim toggle pause">
+                            &#9208;&#65039;
+                        </button>
+                        <div
+                            title="blocked by browser"
+                            class="
+                                hide-on-replay
+                                with-audio-dn
+                                f6 db pa1 ma0">
+                            &#128263;
+                        </div>
+                        <button
+                            title="sfx"
+                            class="
+                                dn with-audio-db
+                                audio-toggle
+                                f6 ba pa1 ma0
+                                bg-translucent-white"
+                            data-audioclass="sfx"
+                            >&#128266;
+                        </button>
+                        <button
+                            title="music"
+                            class="
+                                dn with-audio-db
+                                audio-toggle
+                                f6 ba pa1 ma0
+                                bg-translucent-white"
+                            data-audioclass="music"
+                            >&#127925;
+                        </button>
+                    </div>
+                </div> <!-- END: #side [restart, pause, audio] -->
+                <div id="container-robots"
+                    class="relative flex-grow-1 flex-shrink-1 w-100 h-100 mr2"
+                    style="overflow-y: scroll;">
+                </div> <!-- END: #container-robots -->
+                <div id="container-tools"
+                        class="
+                            relative
+                            flex-shrink-1 flex-grow-0
+                            pt2 mb0 flex flex-column items-center">
+                    <div class="mb0 flex items-center w-100">
+                        <div>
+                            <button
+                                title="load local json..."
+                                class="
+                                    upload-json
+                                    dim br1 ba pt1
+                                    bg-translucent-white black">
+                                &#128193;
+                            </a>
+                        </div>
+                        <select class="
+                                event-sources
+                                w-100
+                                bg-translucent-white black">
+                            <option class="fixed" value="socket">
+                                live
+                            </option>
+                            <option
+                                class="fixed user-loaded dn"
+                                value="">
+                                loaded json
+                            </option>
+                        </select>
+                        <button
+                            class="
+                                switch-source
+                                dim br1 ba pt1
+                                bg-translucent-white black"
+                            value="switch">
+                            switch
+                        </button>
+                    </div> <!-- END: #container-tools [sources] -->
+                    <div class="mt2 tr flex justify-between w-100">
+                        <div class="
+                                simulation-state
+                                self-center ml1">
+                            <span class="online">&#11044;</span>
+                            <span class="fps" class="f7">NA</span>
+                        </div>
+                        <div class="tr">
+                            <a href="/simlogs/{{ arenaid }}.csv"
+                                target="_blank"
+                                class="
+                                    download-csv-results
+                                    dn
+                                    dib pa2 ba b--gray dim ml1
+                                    bg-translucent-white"
+                                title="download existing csv results">
+                                &#128202;
+                            </a>
+                            <a href="#arenainfo"
+                                class="
+                                    dib pa2 ba b--gray dim ml1
+                                    bg-translucent-white"
+                                title="more information...">
+                                &#11015;&#65039;
+                            </a>
+                            <a href="/"
+                                class="
+                                    dib pa2 ba b--gray dim ml1
+                                    bg-translucent-white"
+                                title="back to front page">
+                                &#127968;
+                            </a>
+                        </div>
+                    </div> <!-- #side #container-tools [fps, links] -->
+                </div> <!-- #side #container-tools -->
+            </div> <!-- flex flex-column h-100 pa1 -->
+        </div> <!-- #side -->
+    </div> <!-- #primary -->
+</div> <!-- #container-ui -->
+{% include "arena.info.html" %}
+{% endblock %}
+
+{% block postbody %}
+<script>
+/* share link */
+
+var link_share = document.querySelector("#link-share"),
+    button_share = document.querySelector("#button-share"),
+    note_reset = document.querySelector("#note-reset");
+    href = window.location.href;
+
+if (!href.includes("forceNew=1")) note_reset.classList.add("dn");
+
+link_share.value = href.replace("&forceNew=1", "")
+link_share.value = link_share.value.replace("?forceNew=1", "")
+
+button_share.addEventListener("click", function(){
+    link_share.select();
+    link_share.setSelectionRange(0, 99999); // For mobile devices
+    navigator.clipboard.writeText(link_share.value);
+});
+</script>
+{% endblock %}

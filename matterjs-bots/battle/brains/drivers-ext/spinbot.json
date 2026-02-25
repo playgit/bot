@@ -1,0 +1,10 @@
+{
+    "id":"spinbot",
+    "key":false,
+    "name":"spinbot",
+    "team":"",
+    "brain":"if (!('counter' in context.memory)) context.memory.counter = 0;\r\ncontext.memory.counter++;\r\n\r\nif (context.memory.counter < 23) {\r\n    context.action.desiredAngle = context.state.angleToCenter;\r\n    context.action.desiredForce = 0.001;\r\n} else {\r\n    context.action.desiredAngle = context.state.angle + 0.05;\r\n    context.action.desiredLaunch = true;\r\n}",
+    "version":1,
+    "updated":"2022-11-20T11:10:32.499Z",
+    "oldBrains":[]
+ }

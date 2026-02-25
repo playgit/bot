@@ -1,0 +1,281 @@
+{% extends "_default.html" %}
+
+{% block head %}
+<title>Robot :: RBN-CODE</title>
+<style>
+@media screen and (min-width: 30em) {
+    #notification-container { max-width: 64rem; }
+} /* mw8-ns */
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="
+        ph2 ph4-m ph5-l
+        mw9 mw8-ns
+        ml-auto mr-auto">
+
+    <!-- standardised header -->
+    <h1 class="
+            f1 ma0 pt4 fw6 tc
+            flex justify-center items-center">
+        <a href="/" title="back to front page..." class="mr3">
+            <img src="/artwork/logo.ebotmasters.medium.png" width="80" />
+        </a>
+        <span class="title-font theme-primary dn">
+            RBN-CODE
+        </span>
+        <div class="tl lh-copy">
+            <div class="
+                    di db-m f2
+                    flex flex-column
+                    retro-font">
+                Robot Upload
+            </div>
+        </div>
+    </h1>
+    <!-- END: standardised header -->
+
+    <form
+        method="post"
+        action="">
+        {% if msgResults %}
+        <script>
+        window.addEventListener('load', () => {
+            window.__Notifications.show({
+                message: '<b>{{ msgResults[1] }}</b>',
+                css: '{{ msgResults[0] }}',
+            });
+        });
+        </script>
+        {% endif %}
+        <fieldset class="ba b--transparent ph0 mh0">
+            <h4 class="b tl mb0">
+                Provide the Robot ID and Key
+            </h4>
+            <div class="cf f6 lh-copy flex flex-wrap">
+                <div class="
+                        fl w-100 w-50-m w-60-l pr3-ns tl
+                        flex flex-column justify-start
+                        tj tl-ns">
+                    <article>
+                        <p>
+                            These are fixed and cannot be changed
+                        </p>
+                        <p class="f7">
+                            Anyone with access to the ID will be able to load
+                            the robot code into others arenas;
+                            access to both will allow others to
+                            upload new versions of the robot
+                        </p>
+                        <p class="f7">
+                            A unique Robot ID and Robot Key is also provided in the
+                            footer of every arena - these are considered
+                            insecure and only useful for testing and debugging
+                        </p>
+                    </article>
+                </div>
+                <div class="
+                        fl w-100 w-50-m w-40-l
+                        flex flex-column justify-start items-center">
+                    <div class="w-100 mv1">
+                        <label
+                            class="db fw6 lh-copy f6 mb1 tc"
+                            for="robot-id">Robot ID</label>
+                        <input
+                            required
+                            autocomplete="off"
+                            spellcheck="false"
+                            class="
+                                b pa2 input-reset ba
+                                bg-black theme-primary
+                                w-100 tc code "
+                            type="password"
+                            name="robot[id]"
+                            id="robot-id" />
+                    </div>
+                    <div class="w-100 mv1">
+                        <label
+                            class="db fw6 lh-copy f6 mb1 tc"
+                            for="robot-key">Robot Key</label>
+                        <input
+                            required
+                            autocomplete="off"
+                            spellcheck="false"
+                            class="
+                                b pa2 input-reset ba
+                                bg-black theme-primary
+                                w-100 tc code"
+                            type="password"
+                            name="robot[key]"
+                            id="robot-key" />
+                    </div>
+                </div>
+            </div>
+            <h4 class="b tl mb0">
+                Provide the Robot Name and Team
+            </h4>
+            <div class="cf f6 lh-copy flex flex-wrap">
+                <div class="
+                        fl w-100 w-50-m w-60-l pr3-ns tl
+                        flex flex-column justify-start">
+                    <article>
+                        <p>
+                            These can be changed on every upload, but will
+                            only refresh on new matches
+                        </p>
+                        <p class="f7">
+                            The operators reserve the right to make modifications to
+                            prevent abuse, correct for technical limitations,
+                            and for brevity -
+                            the form will reject any invalid characters or symbols
+                        </p>
+                    </article>
+                </div>
+                <div class="
+                        fl w-100 w-50-m w-40-l
+                        flex flex-column justify-start items-center">
+                    <div class="w-100 mv1">
+                        <label
+                            class="db fw6 lh-copy f6 mb1 tc"
+                            for="robot-name">Robot Name</label>
+                        <input
+                            required
+                            autocomplete="off"
+                            spellcheck="false"
+                            class="
+                                b pa2 input-reset ba
+                                bg-black theme-primary
+                                w-100 tc"
+                            type="text"
+                            name="robot[name]"
+                            id="robot-name" />
+                    </div>
+                    <div class="w-100 mv1">
+                        <label
+                            class="db fw6 lh-copy f6 mb1 tc"
+                            for="robot-team">Robot Team</label>
+                        <input
+                            autocomplete="off"
+                            spellcheck="false"
+                            class="
+                                b pa2 input-reset ba
+                                bg-black theme-primary
+                                w-100 tc"
+                            type="text"
+                            name="robot[team]"
+                            id="robot-team" />
+                    </div>
+                </div>
+            </div>
+            <h4 class="b tl mb0">
+                Supply the Code
+            </h4>
+            <div class="cf f6 lh-copy flex flex-wrap">
+                <div class="
+                        fl w-100 w-40-m w-40-l
+                        pr3-ns tl
+                        flex flex-column justify-start">
+                    <article>
+                        <p>
+                            Robots will automatically reload new code
+                            during a round after a few seconds of simulation time
+                        </p>
+                        <p class="f7">
+                            Server-side brains are harder to debug,
+                            and you will not have access to internal state
+                        </p>
+                        <p class="f7">
+                            Ensure that any code robot is tested properly
+                        </p>
+                    </article>
+                </div>
+                <div class="
+                        fl w-100 w-60-m w-60-l
+                        flex flex-column justify-start items-center">
+                    <div class="w-100 mv1">
+                        <label
+                            class="db fw6 lh-copy f6 tc"
+                            for="robot-brain">Brain / Code</label>
+                        <textarea
+                            required
+                            rows="20"
+                            spellcheck="false"
+                            name="robot[brain]"
+                            id="robot-brain"
+                            class="code f6 nowrap pa2 input-reset ba bg-black theme-primary w-100"></textarea>
+                        <p
+                            id="status-compiler"
+                            class="f6 mt1 tc"
+                            style="word-break: break-all;">
+                            ...
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="tr">
+            <input
+                id="but-update"
+                class="
+                    b ph3 pv2 dim
+                    input-reset ba
+                    black b--black grow
+                    pointer f6 dib bg-theme-primary"
+                type="submit"
+                value="Update" />
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block postbody %}
+{% if config and config.regex_name %}
+<script>
+(() => {
+let robotName = document.querySelector("#robot-name"),
+    robotTeam = document.querySelector("#robot-team");
+
+let regex_name = /[{{ config.regex_name|safe }}]/;
+
+const validate = (e) => {
+    if (!regex_name.test(e.key)) {
+        e.preventDefault();
+        return false;
+    }
+};
+
+robotName.addEventListener("keypress", validate);
+robotTeam.addEventListener("keypress", validate);
+})();
+</script>
+{% endif %}
+<script src="/util.robotCompiler.js"></script>
+<script src="/util.debounce.js"></script>
+<script>
+
+if (!doBrainCompile) throw Error('util.robotCompiler.js not loaded');
+
+var button_update = document.querySelector("#but-update");
+
+var brain_editor = document.querySelector("#robot-brain"),
+    brain_status = document.querySelector("#status-compiler");
+
+const compileCode = () => {
+    var code = (brain_editor.value || '').trim(),
+        msg = "add code to view compiler output";
+
+    if (code) {
+        results = doBrainCompile(code);
+        msg = results[1];
+    }
+
+    brain_status.innerText = msg;
+}
+
+brain_editor.addEventListener("keyup", debounce(compileCode, 300));
+
+compileCode();
+
+</script>
+{% endblock %}

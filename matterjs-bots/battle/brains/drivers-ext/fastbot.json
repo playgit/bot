@@ -1,0 +1,10 @@
+{
+    "id":"fastbot",
+    "key":false,
+    "name":"fastbot",
+    "team":"",
+    "brain":"var closest = context.state.proximity[0] || {};\r\n\r\n// when detecting a wall very nearby, turn towards center of arena\r\nif (closest.entityType == \"wall\") {\r\n    // face robot towards center of arena if too close to wall\r\n    context.action.desiredAngle = context.state.angleToCenter;\r\n}\r\n\r\n// always move forward - the divisor (/2) determines max speed/force\r\ncontext.action.desiredForce = context.state.maxForce/2;\r\n\r\n// fire at anything within scanner range\r\nif (context.state.scanner.ALL.length > 0)\r\n    context.action.desiredLaunch = true;",
+    "version":1,
+    "updated":false,
+    "oldBrains":[]
+ }

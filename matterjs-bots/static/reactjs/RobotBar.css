@@ -1,0 +1,27 @@
+.RobotBar__Robot > div {
+    display: inline-block;
+    margin: 0 0.1rem;
+    vertical-align: top;
+}
+
+.RobotBar__Robot > div:not(.minimised) {
+    position: absolute;
+    margin: 0 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 75px);
+    min-height: 350px; /* very small landscape mobile screens */
+    z-index: 100;
+}
+
+.RobotBar__Plus {
+    margin: 0.1rem;
+    padding: 0.1rem 0.3rem;
+
+    font-size: .875rem; /* f6 */
+    border-style: solid; border-width: 1px; /* ba */
+    display: inline-block; /* dib */
+    border-color: black; /* b--black */
+    vertical-align: middle; /* v-mid */
+}

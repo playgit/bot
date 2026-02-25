@@ -1,0 +1,734 @@
+{% extends "_default.html" %}
+
+{% block head %}
+<title>API :: RBN-CODE</title>
+<link rel="stylesheet" href="/redaction.css" />
+<style>
+@media screen and (min-width: 30em) {
+    #notification-container { max-width: 64rem; }
+} /* mw8-ns */
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="
+        ph2 ph4-m ph5-l
+        mw9 mw8-ns
+        ml-auto mr-auto">
+
+    <!-- standardised header -->
+    <h1 class="
+            f1 ma0 pt4 fw6 tc
+            flex justify-center items-center">
+        <a href="/" title="back to front page..." class="mr3">
+            <img src="/artwork/logo.ebotmasters.medium.png" width="80" />
+        </a>
+        <span class="title-font theme-primary dn">
+            RBN-CODE
+        </span>
+        <div class="tl lh-copy">
+            <div class="
+                    di db-m f2
+                    flex flex-column
+                    retro-font">
+                API Tools
+            </div>
+        </div>
+    </h1>
+    <!-- END: standardised header -->
+
+    <!-- api setup -->
+    <div class="mt3 mb0 mw5 center">
+        <label
+            class="db fw6 lh-copy f6 tc"
+            for="apikey">API Key</label>
+        <input
+            required
+            autocomplete="off"
+            spellcheck="false"
+            class="
+                input-reset
+                pa2 b ba w-100 tc
+                red bg-black"
+            type="password"
+            value="{{ apikey }}"
+            id="apikey" />
+    </div>
+
+    <div class="cf">
+        <div class="fl w-100 w-50-l tc pr1-ns">
+            <!-- robot setup -->
+            <legend class="f2 fw6 ph0 mt4 center retro-font">
+                Robot
+            </legend>
+            <div class="mt3 mb1 flex justify-between">
+                <div class="mr1 flex items-end"
+                     style="flex: 1 0 0">
+                    <input
+                        disabled
+                        id="generate-robot"
+                        class="
+                            req-api b ph3 pv2 dim grow
+                            pointer input-reset w-100
+                            ba black b--black f6 dib
+                            bg-theme-primary"
+                        type="button"
+                        value="Generate" />
+                </div>
+                <div class="mr1" style="flex: 2 0 0">
+                    <label
+                        class="db fw6 lh-copy f6 tc"
+                        for="robot-id">Robot ID</label>
+                    <input
+                        readonly
+                        required
+                        autocomplete="off"
+                        spellcheck="false"
+                        class="
+                            code click-select pa2
+                            input-reset ba w-100 tc
+                            bg-black dark-green"
+                        type="text"
+                        id="robot-id" />
+                </div>
+                <div style="flex:3 0 0">
+                    <label
+                        class="db fw6 lh-copy f6 tc"
+                        for="robot-key">Robot Key</label>
+                    <input
+                        readonly
+                        required
+                        autocomplete="off"
+                        spellcheck="false"
+                        class="
+                            code click-select pa2
+                            input-reset ba w-100 tc
+                            bg-black dark-green"
+                        type="text"
+                        id="robot-key" />
+                </div>
+            </div>
+            <p class="mb3 mt2 f7 tc"
+            id="generate-robot-response">
+                Waiting
+            </p>
+
+            <!-- arena management -->
+            <legend class="f2 fw6 ph0 mt4 center retro-font">
+                Arena
+            </legend>
+            <div class="mt3 mb1 flex justify-between">
+                <div class="mr1" style="flex: 2 0 0">
+                    <label
+                        class="db fw6 lh-copy f6 tc"
+                        for="arenaID">Arena ID</label>
+                    <input
+                        required
+                        autocomplete="off"
+                        spellcheck="false"
+                        class="
+                            code click-select pa2
+                            input-reset ba bg-black
+                            theme-primary w-100 tc"
+                        type="text"
+                        id="arenaID" />
+                </div>
+                <div class="mr1 flex items-end" style="flex: 1 0 0">
+                    <input
+                        disabled
+                        id="close-arena"
+                        class="
+                            req-api b ph3 pv2 dim
+                            input-reset ba black b--black
+                            grow pointer f6 dib
+                            bg-theme-primary w-100"
+                        type="button"
+                        value="Close Arena" />
+                </div>
+            </div>
+            <p class="mb3 mt2 f7 tc"
+            id="close-arena-response">
+                Waiting
+            </p>
+
+            <!-- server, process maanagement -->
+            <legend class="f2 fw6 ph0 mt4 center retro-font">
+                Server
+            </legend>
+            <div class="mt3 mb2 flex">
+                <div
+                    class="mr1 tr flex-grow-1">
+                    Load Balancers
+                </div>
+                <div
+                    id="list-lb"
+                    class="ml1 tl flex-grow-1 flex flex-wrap"></div>
+            </div>
+            <div class="mv2 flex justify-between">
+                <div class="mr1" style="flex: 2 0 0">
+                    <select
+                        required
+                        class="
+                            code pa2 input-reset
+                            ba bg-black
+                            theme-primary w-100 tc"
+                        id="list-balancers">
+                    </select>
+                </div>
+                <div class="mr1 flex items-end" style="flex: 1 0 0">
+                    <input
+                        disabled
+                        id="kill-process"
+                        class="
+                            req-api b ph3 pv2 dim
+                            input-reset ba black b--black
+                            grow pointer f6 dib
+                            bg-theme-primary w-100"
+                        type="button"
+                        title="requires confirmation"
+                        value="Kill" />
+                </div>
+            </div>
+            <div class="mv3 flex">
+                <div
+                    class="mr1 tr flex-grow-1">
+                    Arenas
+                </div>
+                <div
+                    class="ml1 tl flex-grow-1 b">
+                    <span
+                        id="count-Arenas"
+                        class="
+                            f6 ph2 pv1 mb2 mr1
+                            white bg-dark-gray"></span>
+                </div>
+                <div
+                    class="mr1 tr flex-grow-1">
+                    Viewers
+                </div>
+                <div
+                    class="ml1 tl flex-grow-1 b">
+                    <span
+                        id="count-ViewerSockets"
+                        class="
+                            f6 ph2 pv1 mb2 mr1
+                            white bg-dark-gray"></span>
+                </div>
+                <div
+                    class="mr1 tr flex-grow-1">
+                    Robots
+                </div>
+                <div
+                    class="ml1 tl flex-grow-1 b">
+                    <span
+                        id="count-RoboSockets"
+                        class="
+                            f6 ph2 pv1 mb2 mr1
+                            white bg-dark-gray"></span>
+                </div>
+            </div>
+
+        </div> <!-- end .w-50-1 -->
+        <div class="fl w-100 w-50-l tc pl1-ns">
+
+            <!-- competition manager -->
+            <legend class="f2 fw6 ph0 mt4 center retro-font">
+                Competition
+            </legend>
+            <div class="mt3 flex justify-between">
+                <div style="flex: 2 0 0" class="mr1">
+                    <label
+                        class="db fw6 lh-copy f6 tc"
+                        for="comp-id">Competition ID</label>
+                    <input
+                        required
+                        autocomplete="off"
+                        spellcheck="false"
+                        class="
+                            code pa2 input-reset
+                            ba bg-black
+                            theme-primary w-100 tc"
+                        type="text"
+                        id="comp-id"
+                        value="" />
+                </div>
+                <div style="flex:1 0 0" class="">
+                    <label
+                        class="db fw6 lh-copy f6 tc"
+                        for="comp-rounds-max">Rounds</label>
+                    <input
+                        required
+                        autocomplete="off"
+                        spellcheck="false"
+                        class="
+                            code click-select b pa2
+                            input-reset ba bg-black
+                            theme-primary w-100 tc"
+                        type="text"
+                        id="comp-max-rounds"
+                        value="" />
+                </div>
+            </div>
+            <div class="mt3 flex justify-between">
+                <div style="flex:1 0 0" class="mr1">
+                    <label
+                        class="db fw6 lh-copy f6 tc"
+                        for="comp-rounds-time">Length</label>
+                    <input
+                        required
+                        autocomplete="off"
+                        spellcheck="false"
+                        class="
+                            code click-select b pa2
+                            input-reset ba bg-black
+                            theme-primary w-100 tc"
+                        type="text"
+                        id="comp-limit-round"
+                        value="60" />
+                </div>
+                <div style="flex:1 0 0" class="mr1">
+                    <label
+                        class="db fw6 lh-copy f6 tc"
+                        for="comp-groups-max">Max per Group</label>
+                    <input
+                        required
+                        autocomplete="off"
+                        spellcheck="false"
+                        class="
+                            code click-select b pa2
+                            input-reset ba bg-black
+                            theme-primary w-100 tc"
+                        type="text"
+                        id="comp-group-max"
+                        value="4" />
+                </div>
+                <div style="flex:1 0 0" class="">
+                    <label
+                        class="db fw6 lh-copy f6 tc"
+                        for="comp-groups-max">Auto-Restart</label>
+                    <input
+                        required
+                        autocomplete="off"
+                        spellcheck="false"
+                        class="
+                            code click-select b pa2
+                            input-reset ba bg-black
+                            theme-primary w-100 tc"
+                        type="text"
+                        id="comp-autorestart"
+                        value="60" />
+                </div>
+            </div>
+            <span id="competition-robot-ids-redact"
+                    role="presentation"></span>
+            <div id="competition-robot-ids"
+                    class="mt3 redactor-visible">
+                <label
+                    class="
+                        db fw6 lh-copy f6 tc"
+                    for="comp-robot-list">Existing Robot IDs</label>
+                <div class="relative mb2">
+                    <textarea
+                        id="comp-robot-list"
+                        rows="8"
+                        style="resize: vertical;"
+                        class="
+                            w-100 bg-black ma0 pa0 db
+                            theme-primary code tc"
+                        ></textarea>
+                    <!-- <div id="redaction-robots"
+                        class="redactor"
+                        title="redacted">
+                        <a class="hide" href="#competition-robot-ids">&#128274;</a>
+                        <a class="show" href="#competition-robot-ids-redact">&#128275;</a>
+                    </div> -->
+                </div>
+            </div>
+            <div class="mt1 flex justify-between">
+                <div class="flex-grow-1 tl">
+                    <input
+                        disabled
+                        id="comp-check-robots"
+                        class="
+                            req-api b ph3 pv2 dim
+                            input-reset ba black b--black
+                            grow pointer f6
+                            bg-theme-primary"
+                        type="button"
+                        value="Check Robot IDs" />
+                </div>
+                <div class="flex-grow-1 tr">
+                    <input
+                        disabled
+                        id="comp-start"
+                        class="
+                            req-api b ph3 pv2 dim
+                            input-reset ba black b--black
+                            grow pointer f6
+                            bg-theme-primary"
+                        type="button"
+                        value="Start Competition" />
+                </div>
+            </div>
+            <p class="mv3 lh-copy f7 tc"
+               id="comp-response">
+                Waiting
+            </p>
+
+        </div> <!-- end .w-50-l -->
+    </div> <!-- end .cf -->
+</div>
+{% endblock %}
+
+
+{% block postbody %}
+<script src="/util.friendlyTimes.js"></script>
+<script src="/util.timeticker.js"></script>
+<script src="/util.debounce.js"></script>
+<script src="/util.fetchTimeout.js"></script>
+<script src="/ui.serverMonitor.js"></script>
+<script>
+
+let serverMon = createServerMonitor("#list-lb"),
+    countArenas = document.querySelector("#count-Arenas"),
+    countViewerSockets = document.querySelector("#count-ViewerSockets"),
+    countRoboSockets = document.querySelector("#count-RoboSockets"),
+    listBalancers = document.querySelector('#list-balancers'),
+    APIKey = document.querySelector("#apikey"),
+    buttons = document.querySelectorAll('.req-api');
+
+serverMon.setOnData((data) => {
+    if (data.Arenas) {
+        countArenas.innerText = data.Arenas.length;
+    }
+
+    if (data.ViewerSockets) {
+        let count = 0;
+        Object.values(data.ViewerSockets).forEach(
+            x => count += Object.entries(x).length);
+        countViewerSockets.innerText = count;
+    } else {
+        countViewerSockets.innerText = "NA";
+    }
+
+    if (data.RoboSockets) {
+        let count = 0;
+        Object.values(data.RoboSockets).forEach(
+            x => count += Object.entries(x).length);
+        countRoboSockets.innerText = count;
+    } else {
+        countRoboSockets.innerText = "NA";
+    }
+
+    if (APIKey.value && data.ViewerSockets && data.RoboSockets) {
+        buttons.forEach(b => {
+            APIKey.classList.remove('red');
+            APIKey.classList.add('dark-green');
+            b.disabled = false;
+            b.classList.add('dim', 'grow', 'pointer', 'bg-theme-primary');
+        });
+    } else {
+        buttons.forEach(b => {
+            APIKey.classList.add('red');
+            APIKey.classList.remove('dark-green');
+            b.disabled = true;
+            b.classList.remove('dim', 'grow', 'pointer', 'bg-theme-primary');
+        });
+    }
+
+    if (APIKey.value && data.Balancers) {
+        let ts_now = (new Date()).getTime();
+
+        // index existing options...
+        let ExtantOptions = listBalancers.querySelectorAll('option'),
+            byBalancerID = {},
+            unused = new Set();
+        ExtantOptions.forEach(el => {
+            let balancerid = el.getAttribute('value');
+            byBalancerID[balancerid] = el;
+            unused.add(balancerid);
+        });
+
+        for (const[balancerid, [listen, ts_fork]]
+                of Object.entries(data.Balancers)) {
+
+            unused.delete(balancerid); // mark as used
+
+            let str_listen = String(listen),
+                secs_started = (ts_now - ts_fork) / 1000;
+
+            let secs_heartbeat = false;
+            if (data.Heartbeats && data.Heartbeats[str_listen]) {
+                secs_heartbeat = ((ts_now - (
+                    new Date(data.Heartbeats[str_listen][0]).getTime()))
+                        / 1000);
+            }
+
+            // contents of this balancer option
+            let html = '' +
+                '[' + balancerid + '] ' +
+                listen + ' ' +
+                friendlyShortTime(secs_started) + ' ' +
+                friendlyShortTime(secs_heartbeat);
+
+            if (balancerid in byBalancerID) {
+                // update content of existing options
+                byBalancerID[balancerid].innerHTML = html;
+            } else {
+                // create new option
+                listBalancers.innerHTML += '' +
+                    '<option value="' + balancerid + '">' +
+                        html +
+                    '</option>';
+            }
+        } // end for (balancer)
+
+        // remove unused balancers
+        unused.forEach(balancerid => byBalancerID[balancerid].remove());
+    }
+
+});
+
+const updatekey = () => { serverMon.setAPIKey(APIKey.value || ''); };
+APIKey.addEventListener("change", debounce(updatekey, 500));
+if (APIKey.value) updatekey();
+
+// robot hash generation
+
+let generateRobot = document.querySelector('#generate-robot'),
+    generateRobotResponse = document.querySelector('#generate-robot-response'),
+    robotID = document.querySelector('#robot-id'),
+    robotKey = document.querySelector('#robot-key');
+
+generateRobot.addEventListener('click', () => {
+    generateRobotResponse.innerHTML = 'Sending... ' + html_timeticker();
+    fetchTimeout('/api/robot/generate', {
+        timeout: 10000,
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 'api': APIKey.value }),
+    })
+    .then(res => {
+        if (!res.ok) throw Error("Server returned " + res.status)
+        return res.json()
+    })
+    .then(data => {
+        if (!data.response) throw Error("Invalid Response");
+
+        robotID.value = data.response.id
+        robotKey.value = data.response.key
+
+        generateRobotResponse.innerHTML = ''
+            + 'Generated '
+            + html_timeticker(data.now) + ' '
+            + 'ago';
+    })
+    .catch(err => {
+        generateRobotResponse.innerText = err;
+    });
+});
+
+// close arena
+
+let closeArena = document.querySelector('#close-arena'),
+    closeArenaResponse = document.querySelector('#close-arena-response'),
+    arenaID = document.querySelector('#arenaID');
+
+closeArena.addEventListener('click', () => {
+    closeArenaResponse.innerHTML = 'Sending... ' + html_timeticker() + '';
+    fetchTimeout('/api/close/' + arenaID.value, {
+        timeout: 10000,
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 'api': APIKey.value }),
+    })
+    .then(res => {
+        if (!res.ok) throw Error("Server returned " + res.status)
+        return res.json()
+    })
+    .then(data => {
+        console.log('close-arena', data);
+        closeArenaResponse.innerHTML = ''
+            + (data.action ? 'Closed' : 'No action') + ' '
+            + html_timeticker(data.now) + ' '
+            + 'ago';
+    })
+    .catch(err => {
+        closeArenaResponse.innerText = err;
+    });
+});
+
+// kill process
+
+let killProcess = document.querySelector('#kill-process');
+
+killProcess.addEventListener('click', () => {
+    let balancerid = listBalancers.value;
+    if (confirm(
+            'Please confirm termination of ' +
+            'Balancer [' + balancerid + ']')) {
+
+        fetchTimeout('/api/kill/' + balancerid, {
+            timeout: 10000,
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 'api': APIKey.value }),
+        })
+    }
+});
+
+// start competition
+
+let compID = document.querySelector('#comp-id'),
+    compMaxRounds = document.querySelector('#comp-max-rounds'),
+    compLimitRound = document.querySelector('#comp-limit-round'),
+    compGroupMax = document.querySelector('#comp-group-max'),
+    compAutorestart = document.querySelector('#comp-autorestart'),
+    compRobotList = document.querySelector('#comp-robot-list'),
+    // actions and response
+    compCheckRobots = document.querySelector('#comp-check-robots'),
+    compStart = document.querySelector('#comp-start'),
+    compResponse = document.querySelector('#comp-response');
+
+const get_robotlist = () => {
+    let ids = compRobotList.value.trim().replaceAll('\n', ',').replaceAll('\r', ',').split(/(?:,| )+/);
+    return ids.filter(x => x.trim());
+}
+
+compCheckRobots.addEventListener('click', () => {
+    let robotList = get_robotlist();
+    if (robotList.length <= 0) return;
+
+    fetchTimeout('/robot/checklist', {
+        timeout: 2000,
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            api: APIKey.value,
+            robotids: robotList.join(',')
+        }),
+    })
+    .then(res => {
+        if (!res.ok) throw Error("Server returned " + res.status)
+        return res.json()
+    })
+    .then(data => {
+        console.log('comp-check-robots', data);
+        if (data.response) {
+            compResponse.innerHTML = '' +
+                'OK: ' + data.response.OK.length + '; ' +
+                'missing: ' + data.response.missing.length +
+                (data.response.missing.length ?
+                    ' (<code>' +
+                        data.response.missing.join(
+                            '</code>, <code>') +
+                    '</code>)' :
+                    '') + '; ' +
+                'duplicate: ' + data.response.duplicate.length + ' ' +
+                '(' + html_timeticker(data.now) + ' ago)';
+        } else {
+            throw Error('Invalid response');
+        }
+    })
+    .catch(err => {
+        compResponse.innerText = err + ' ';
+        compResponse.innerHTML += '' +
+            '(' + html_timeticker(data.now) + ' ago)';
+    });
+});
+
+compStart.addEventListener('click', () => {
+    let ID = compID.value.trim(),
+        maxRounds = parseInt(compMaxRounds.value),
+        limitRound = parseInt(compLimitRound.value),
+        groupMax = parseInt(compGroupMax.value),
+        autorestart = parseInt(compAutorestart.value),
+        robotList = get_robotlist();
+
+    if (!ID) {
+        compResponse.innerText = "missing ID";
+        return;
+    };
+    if (maxRounds <= 0) {
+        compResponse.innerText = "at least 1 round";
+        return;
+    }
+    if (limitRound < 10) {
+        compResponse.innerText = "length must be 10 seconds or more";
+        return;
+    }
+    if (groupMax < 1 || groupMax > 32) {
+        compResponse.innerText = "group max must be 1-32";
+        return;
+    }
+    if (autorestart < 5) {
+        compResponse.innerText = "autorestart must be 5 seconds or more";
+        return;
+    }
+    if (robotList.length < 2) {
+        compResponse.innerText = "2 robots or more";
+        return;
+    }
+
+    var config = {
+        'api': APIKey.value,
+        'maxRounds': maxRounds,
+        'limitRound': limitRound,
+        'groupMax': groupMax,
+        'autorestart': autorestart,
+        'robotList': robotList.join('\n'),
+    };
+
+    fetchTimeout('/api/competition/start/' + ID, {
+        timeout: 10000,
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(config),
+    })
+    .then(res => {
+        if (!res.ok) throw Error("Server returned " + res.status)
+        return res.json()
+    })
+    .then(data => {
+        console.log('comp-start', data);
+        if (typeof data.action == 'string') {
+            compResponse.innerHTML = data.action + ' ';
+        } else {
+            compResponse.innerHTML = '' +
+                (data.action
+                    ? '<a target="_blank" href="/competition/' + data.action.compid +'">' +
+                        data.action.status + '</a>'
+                    : 'Nothing happened') + ' ';
+
+        }
+        compResponse.innerHTML += '(' + html_timeticker(data.now) + ' ago)';
+    })
+    .catch(err => {
+        compResponse.innerText = err + ' ';
+        compResponse.innerHTML += '' +
+            '(' + html_timeticker(data.now) + ' ago)';
+    });
+});
+
+</script>
+{% endblock %}

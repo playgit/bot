@@ -1,0 +1,27 @@
+#notification { display: none; }
+
+body.with-notification #notification { display: block; }
+
+#notification .dismiss {
+    white-space: nowrap;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    padding: 4px;
+    cursor: pointer;
+}
+
+#notification.notify-info {
+    color: white;
+    background-color: #357edd;
+}
+
+#notification.notify-success {
+    color: white;
+    background-color: #137752;
+}
+
+#notification.notify-fail {
+    color: white;
+    background-color: #500000;
+}

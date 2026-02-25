@@ -1,0 +1,118 @@
+<div id="arenainfo" class="tr">
+    <div class="dib v-top measure w-100">
+        <article class="
+                tl f6 ma3 pa3 pb4 lh-copy
+                br3 pa3 mb3 shadow-3
+                bg-translucent-black">
+            <a href="#top"
+                class="dib pa1 dim ml1 fr"
+                title="back to top">
+                &#11014;&#65039;
+            </a>
+            <h2 class="f5 mt1">
+                Share
+            </h2>
+            <div
+                id="note-reset"
+                class="mt2 mb0">
+                    Note: Refreshing or pressing the
+                    browser back button will reset
+                    this arena. Use the share link below
+                    which contains a
+                    <a href="/arena/{{ arenaid }}">safe link</a>
+                    that does not reset the arena.
+            </div>
+            <div class="tl flex mt2 mb0">
+                <button id="button-share"
+                        class="
+                            f7 dim br1 ba pt1 mr1
+                            bg-translucent-white">
+                    share
+                </button>
+                    <input
+                        id="link-share"
+                        class="
+                            click-select
+                            f7 w-100 bw0
+                            bg-translucent-black theme-primary
+                            "
+                        readonly />
+            </div>
+            <p class="mb0 pb0">
+                <b>Be careful!</b>
+                Sharing an arena may allow others to
+                retrieve and overwrite any associated uploaded robot.
+            </p>
+        </article>
+    </div>
+    <div class="dib vtop measure w-100">
+        <article class="
+                tl f6 ma3 pa3 pb4 lh-copy
+                br3 pa3 mb3 shadow-3
+                bg-translucent-black">
+            <a href="#top"
+                class="dib pa1 dim ml1 fr"
+                title="back to top">
+                &#11014;&#65039;
+            </a>
+            <h2 class="f5 white mt1">Robot ID &amp; Key</h2>
+            <div class="tr">
+                <div class="mb2">
+                    <strong class="mr1">Robot ID</strong>
+                    <input
+                        readonly
+                        type="text"
+                        class="
+                            click-select
+                            code bw0
+                            bg-translucent-black theme-primary"
+                        value="{{ robotid }}" />
+                </div>
+                <div class="mb2">
+                    <strong  class="mr1">Robot Key (very long)</strong>
+                    <input
+                        readonly
+                        type="text"
+                        class="
+                            click-select
+                            code bw0
+                            bg-translucent-black theme-primary"
+                        value="{{ robotkey }}" />
+                </div>
+                <small>click to select all text inside</small>
+            </div>
+            <p>
+                Each arena comes with a Robot ID and Key pair,
+                it can be used to run robot code directly on
+                the server (server-side robot), instead of running
+                it in browser (client-side robot).
+            </p>
+            <p>
+                Save robot code in this arena via the "upload"
+                button in the
+                <a class="b" href="#top">Robot Control Panel</a>.
+                Reload the robot code using the "retrieve" button.
+            </p>
+            <p>
+                Once robot code has been  uploaded, it can be loaded
+                into any arena created using the
+                <a class="b" href="/#container-arena-builder">Arena Builder</a>
+                as long as the Robot ID is known.
+                Copy and paste the Robot ID into the
+                <strong>Load Robots</strong>
+                text area, or replace an existing line.
+            </p>
+            <p>
+                The Robot ID and Robot Key can also be used to
+                directly upload/update the robot via the
+                <a class="b" href="/robot/update">Robot Manager</a>.
+            </p>
+            <p class="tc">
+                Sharing the <strong>Robot ID</strong> allows others to load the robot.
+            </p>
+            <p class="tc">
+                Sharing the <strong>Robot Key</strong> allows others to update the robot.
+            </p>
+        </article>
+    </div>
+</div>

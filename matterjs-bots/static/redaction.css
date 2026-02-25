@@ -1,0 +1,52 @@
+.redactor {
+    position: relative;
+    cursor: not-allowed;
+    position: absolute;
+    top: 2px;
+    right: 20px;
+    width: calc(50% - 20px);
+    height: calc(100% - 4px);
+    background:
+        linear-gradient(
+            45deg,
+            transparent,
+            transparent 2px,
+            #111 3px,
+            #111 4px,
+            #111 5px,
+            transparent 6px,
+            transparent 7px,
+            #111 8px
+        ),
+            linear-gradient(
+            135deg,
+            transparent,
+            transparent 2px,
+            #111 3px,
+            #111 4px,
+            #111 5px,
+            transparent 6px,
+            transparent 7px,
+            #111 8px
+        );
+    background-size: 7px 7px;
+}
+
+.redactor a:hover { text-decoration: none; }
+
+.redactor-visible:target .redactor {
+    background: rgba(255,0,0,0.2);
+}
+
+.redactor a {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    line-height: 1.0rem;
+}
+
+.redactor .hide { display: inline-block; }
+.redactor-visible:target .redactor .hide { display: none; }
+
+.redactor .show { display: none; }
+.redactor-visible:target .redactor .show { display: inline-block; }

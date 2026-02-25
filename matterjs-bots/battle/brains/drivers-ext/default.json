@@ -1,0 +1,10 @@
+{
+    "id":"default",
+    "key":false,
+    "name":"default",
+    "team":"",
+    "brain":"// randomly move forward\r\nif (Math.random() < 0.5) {\r\n    context.action.desiredForce = context.state.maxForce;\r\n}\r\n\r\n// detect closest entity via (short range) proximity alerts\r\nvar closest = context.state.proximity[0] || {};\r\n\r\n// detect robot entity in front of robot via (short-medium range) scanner\r\nvar front = context.state.scanner.robot[0] || false;\r\n\r\nif (closest.entityType == \"wall\") {\r\n    // face robot towards center of arena if too close to wall\r\n    context.action.desiredAngle = context.state.angleToCenter;\r\n} else if (front) {\r\n    if (front.active && front.team != context.state.team) {\r\n        // follow active enemy robots\r\n        context.action.desiredAngle = (\r\n            context.state.angle - (context.state.angle - front.angleFromRobot));\r\n        context.action.desiredLaunch = true;\r\n    } else {\r\n        // avoid inactive robots\r\n        dir = (front.angleFromRobot - context.state.angle) < 0 ? -1:1;\r\n        context.action.desiredAngle = context.state.angle - (dir * 0.174533);\r\n        context.action.desiredForce = context.state.maxForce / 2;\r\n    }\r\n} else if (Math.random() < 0.005) {\r\n    // face random direction\r\n    var maxvar = Math.PI / 4, // 45 degrees\r\n        random = (Math.random() * maxvar) - maxvar/2; // left or right\r\n        context.action.desiredAngle = context.state.angle + random;\r\n        context.action.desiredForce = 0; // tight turn\r\n}",
+    "version":1,
+    "updated":"2022-11-20T11:15:55.122Z",
+    "oldBrains":false
+ }

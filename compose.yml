@@ -1,0 +1,17 @@
+services:
+
+  dev:
+    build:
+      context: .
+    ports:
+      - 5001:5001
+    environment:
+      - PORT=5001
+      - PROCS=2
+      - SIMULATOR_INJECT_DEBUG_INTO_ROBOT=0
+      - SIMULATOR_FAST_RESOLUTION=0
+    # env_file:
+    #   - .env.dev
+    volumes:
+      - ./data/simlogs:/app/static/simlogs
+      - ./data/brains:/app/battle/brains/drivers-ext

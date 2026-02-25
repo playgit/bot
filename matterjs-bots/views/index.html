@@ -1,0 +1,680 @@
+{% extends "_default.html" %}
+
+{% block head %}
+<title>RBN-CODE</title>
+<style>
+body { line-height: 2.0; }
+li > ul { padding-left: 2rem; /* pl4 */ }
+a:hover { text-decoration: underline; }
+
+#preloaded-robots { user-select: none; }
+
+.button { text-decoration: none; }
+.button:hover { text-decoration: underline; background-color: #ff007e;}
+.code { white-space: pre; }
+
+/* animation, title and tagline */
+
+#title {
+    position: relative;
+    animation: 0.5s ease-in slidedown 1;
+    overflow: hidden;
+}
+
+#tagline {
+    overflow: hidden;
+}
+
+#tagline > :nth-child(1) {
+    position: relative;
+    animation: 0.5s ease-in slideright 1;
+}
+#tagline > :nth-child(2) {
+    position: relative;
+    animation: 0.5s ease-in slideleft 1;
+}
+
+@keyframes slidedown {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideright {
+    from { opacity: 0; left: -100%; }
+    to { opacity: 1; left: 0; }
+}
+@keyframes slideleft {
+    from { opacity: 0; right: -100%; }
+    to { opacity: 1; right: 0; }
+}
+</style>
+<link rel="stylesheet" href="/redaction.css" />
+{% endblock %}
+
+{% block body %}
+<h1 id="title" class="f2 lh-title mb0 tc">
+    <img src="/artwork/logo.ebotmasters.medium.png" width="220px" />
+    <span class="title-font theme-primary dn">
+        RBN-CODE
+    </span>
+</h1>
+
+<div id="tagline"
+        class="
+        f3 lh-copy mt0 mb3 mb4-ns tc
+        white retro-font
+        glitch-every-x">
+    <div>code robots<span class="code ph1">&middot;</span>win battles</div>
+    <div>autonomous<span class="code ph1">&middot;</span>100% online</div>
+</div>
+
+<section class="
+        mt3 ph4-m ph5-l
+        mw9 mw8-ns
+        ml-auto mr-auto
+        flex justify-center items-center
+        f6 b green">
+    <div class="
+            mh1 br3 pv2 ph1 ph3-ns tc shadow-3
+            ba bw1 b--dark-pink
+            bg-translucent-black
+            ">
+        <span class="ph2 db">
+            <a href="/arena/trainerdemo" class="glitch-effect">
+                Demo
+            </a>
+        </span>
+    </div>
+    <div class="
+            mh1 br3 pv2 ph1 ph3-ns tc shadow-3
+            ba bw1 b--dark-pink
+            bg-translucent-black
+            ">
+        <span class="ph2 db">
+            <a href="/robot/docs" class="glitch-effect">
+                Learn More
+            </a>
+        </span>
+    </div>
+</section>
+
+<section
+        id="container-arena-builder"
+        class="
+            mv3 ph1 shadow-3
+            bt bb bw1 b--dark-gray
+            with-bg-parallax bg-parallax-hex-purple">
+
+    <div class="
+            f2 ph2
+            db tc mv3
+            retro-font">
+        Arena Builder
+    </div>
+
+    <div class="
+            flex flex-wrap
+            justify-center">
+        <div id="container-builder-presets"
+                class="
+                    measure flex-grow-1
+                    flex flex-column
+                    items-center justify-start
+                    ph2 pt2 pb3">
+            <div class="
+                    f3 b tc mb2
+                    retro-font">
+                Optional Presets
+            </div>
+            <div class="flex flex-wrap justify-center lh-copy">
+                <div class="
+                        replace-robots
+                        flex flex-column
+                        f6 br3 dib
+                        dim pointer
+                        pa1 ph2 mh1 mt0 mb2 tc
+                        ba b--gray
+                        bg-translucent-black
+                        ">
+                    <div class="b">Starter</div>
+                    <ul class="f7 list pa0 ma0
+                            flex-grow-1 flex flex-column
+                            justify-center moon-gray">
+                        <li data-robotid="___BROWSERBOT___">
+                            browserbot
+                        </li>
+                        <li data-robotid="wanderbot">
+                            wanderbot
+                        </li>
+                    </ul>
+                </div>
+                <div class="
+                        replace-robots
+                        flex flex-column
+                        f6 br3 dib
+                        dim pointer
+                        pa1 ph2 mh1 mt0 mb2 tc
+                        ba b--gray
+                        bg-translucent-black
+                        ">
+                    <div class="b">Harder 1</div>
+                    <ul class="f7 list pa0 ma0
+                            flex-grow-1 flex flex-column
+                            justify-center moon-gray">
+                        <li data-robotid="___BROWSERBOT___">
+                            browserbot
+                        </li>
+                        <li data-robotid="spinbot">
+                            spinbot
+                        </li>
+                    </ul>
+                </div>
+                <div class="
+                        replace-robots
+                        flex flex-column
+                        f6 br3 dib
+                        dim pointer
+                        pa1 ph2 mh1 mt0 mb2 tc
+                        ba b--gray
+                        bg-translucent-black
+                        ">
+                    <div class="b">Harder 2</div>
+                    <ul class="f7 list pa0 ma0
+                            flex-grow-1 flex flex-column
+                            justify-center moon-gray">
+                        <li data-robotid="___BROWSERBOT___">
+                            browserbot
+                        </li>
+                        <li data-robotid="spinbot">
+                            spinbot
+                        </li>
+                        <li data-robotid="slowbot">
+                            slowbot
+                        </li>
+                    </ul>
+                </div>
+                <div class="
+                        replace-robots
+                        flex flex-column
+                        f6 br3 dib
+                        dim pointer
+                        pa1 ph2 mh1 mt0 mb2 tc
+                        ba b--gray
+                        bg-translucent-black
+                        ">
+                    <div class="b">Harder 3</div>
+                    <ul class="f7 list pa0 ma0
+                            flex-grow-1 flex flex-column
+                            justify-center moon-gray">
+                        <li data-robotid="___BROWSERBOT___">
+                            browserbot
+                        </li>
+                        <li data-robotid="spinbot">
+                            spinbot
+                        </li>
+                        <li data-robotid="fastbot">
+                            fastbot
+                        </li>
+                    </ul>
+                </div>
+                <div class="
+                        replace-robots
+                        flex flex-column
+                        f6 br3 dib
+                        dim pointer
+                        pa1 ph2 mh1 mt0 mb2 tc
+                        ba b--gray
+                        bg-translucent-black
+                        ">
+                    <div class="b">Challenge 1</div>
+                    <ul class="f7 list pa0 ma0
+                            flex-grow-1 flex flex-column
+                            justify-center moon-gray">
+                        <li data-robotid="___BROWSERBOT___">
+                            browserbot
+                        </li>
+                        <li data-robotid="default">
+                            default
+                        </li>
+                    </ul>
+                </div>
+                <div class="
+                        replace-robots
+                        flex flex-column
+                        f6 br3 dib
+                        dim pointer
+                        pa1 ph2 mh1 mt0 mb2 tc
+                        ba b--gray
+                        bg-translucent-black
+                        ">
+                    <div class="b">Challenge 2</div>
+                    <ul class="f7 list pa0 ma0
+                            flex-grow-1 flex flex-column
+                            justify-center moon-gray">
+                        <li data-robotid="___BROWSERBOT___">
+                            browserbot
+                        </li>
+                        <li data-robotid="default">
+                            default
+                        </li>
+                        <li data-robotid="default">
+                            default
+                        </li>
+                    </ul>
+                </div>
+                <div class="
+                        replace-robots
+                        flex flex-column
+                        f6 br3 dib
+                        dim pointer
+                        pa1 ph2 mh1 mt0 mb2 tc
+                        ba b--gray
+                        bg-translucent-black
+                        ">
+                    <div class="b">Challenge 3</div>
+                    <ul class="f7 list pa0 ma0
+                            flex-grow-1 flex flex-column
+                            justify-center moon-gray">
+                        <li data-robotid="___BROWSERBOT___">
+                            browserbot
+                        </li>
+                        <li data-robotid="default">
+                            default
+                        </li>
+                        <li data-robotid="default">
+                            default
+                        </li>
+                        <li data-robotid="default">
+                            default
+                        </li>
+                    </ul>
+                </div>
+                <div class="
+                        replace-robots
+                        flex flex-column
+                        f6 br3 dib
+                        dim pointer
+                        pa1 ph2 mh1 mt0 mb2 tc
+                        ba b--gray
+                        bg-translucent-black
+                        ">
+                    <div class="b">Manuals</div>
+                    <ul class="f7 list pa0 ma0
+                            flex-grow-1 flex flex-column
+                            justify-center moon-gray">
+                        <li data-robotid="___BROWSERBOT___">
+                            browserbot
+                        </li>
+                        <li data-robotid="___BROWSERBOT___">
+                            browserbot
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <span id="container-preloaded-robots-redact"
+                role="presentation"></span>
+        <div id="container-preloaded-robots"
+                data-key="ssbots"
+                class="
+                    redactor-visible
+                    measure
+                    flex-grow-1
+                    flex flex-column
+                    ph2 pt2 pb3">
+            <div class="
+                    f3 tc mb2
+                    retro-font">
+                Load Robots
+            </div>
+            <div class="
+                    flex flex-row
+                    items-center mb2">
+                <div class="
+                        flex-grow-1 flex-shrink-1
+                        ma1 tr h-100
+                        flex flex-column
+                        justify-center items-center
+                        pa0 tc ph1
+                        br3 ba b--dark-gray
+                        bg-translucent-black
+                        ">
+                    <ul id="preloaded-robots" class="pa0 ma0">
+                        <li class="
+                                add-list-item
+                                f7 link dim br-pill ma0
+                                ph2 pv1 ma1
+                                dib pointer
+                                ba b--gray
+                                white bg-translucent-blue
+                                "
+                            data-id="___BROWSERBOT___">
+                                +browserbot
+                        </li>
+                        <br />
+                        <li class="
+                                add-list-item
+                                f7 link dim br-pill
+                                ph2 pv1 ma1
+                                dib pointer
+                                ba b--gray
+                                white bg-translucent-green
+                                "
+                            data-id="default">+default*</li>
+                        <li class="
+                                add-list-item
+                                f7 link dim br-pill
+                                ph2 pv1 ma1
+                                dib pointer
+                                ba b--gray
+                                white bg-translucent-green
+                                "
+                            data-id="slowbot">+slowbot*</li>
+                        <li class="
+                                add-list-item
+                                f7 link dim br-pill
+                                ph2 pv1 ma1
+                                dib pointer
+                                ba b--gray
+                                white bg-translucent-green
+                                "
+                            data-id="fastbot">+fastbot*</li>
+                        <li class="
+                                add-list-item
+                                f7 link dim br-pill
+                                ph2 pv1 ma1
+                                dib pointer
+                                ba b--gray
+                                white bg-translucent-green
+                                "
+                            data-id="spinbot">+spinbot*</li>
+                        <li class="
+                                add-list-item
+                                f7 link dim br-pill
+                                ph2 pv1 ma1
+                                dib pointer
+                                ba b--gray
+                                white bg-translucent-green
+                                "
+                            data-id="nothingbot">+nothingbot</li>
+                        <li class="
+                                add-list-item
+                                f7 link dim br-pill
+                                ph2 pv1 ma1
+                                dib pointer
+                                ba b--gray
+                                white bg-translucent-green
+                                "
+                            data-id="wanderbot">+wanderbot</li>
+                    </ul>
+                    <div class="f7 ma1 txt">
+                        * <a href="/robot/samples">sample code</a>
+                        available
+                    </div>
+                </div>
+                <div class="flex flex-column self-center">
+                    <button class="
+                            btn-remove-first
+                            db f7 ma0 pv2 pointer
+                            ba b--gray
+                            moon-gray bg-translucent-black">
+                        remove first
+                    </button>
+                    <div class="relative">
+                        <textarea
+                            rows="8"
+                            cols="16"
+                            autcomplete="false"
+                            spellcheck="false"
+                            class="
+                                list
+                                db code tc f6 pv2
+                                b--dark-gray
+                                bg-black theme-primary"
+                            ></textarea>
+                        <!-- <div title="redacted"
+                            class="redactor">
+                            <a class="hide" href="#container-preloaded-robots">&#128274;</a>
+                            <a class="show" href="#container-preloaded-robots-redact">&#128275;</a>
+                        </div> -->
+                    </div>
+                    <button class="
+                            btn-remove-last
+                            db f7 ma0 pv2 pointer
+                            ba b--gray
+                            moon-gray bg-translucent-black">
+                        remove last
+                    </button>
+                </div>
+            </div>
+            <div class="f7 tc txt">
+                use your own robots:
+                <a href="/robot/update" title="Robot Manager">upload</a>
+                and paste ID into text area
+            </div>
+        </div> <!-- END #container-preloaded-robots -->
+
+        <div class="
+                    flex flex-column
+                    justify-start items-center
+                    ph2 pt2 pb3 tc">
+            <div class="
+                    f3 tc mb2
+                    retro-font">
+                Press Start
+            </div>
+            <div class="f6 mv2 nowrap">
+                <label
+                    for="input-arenaid"
+                    class="
+                        db
+                        fw6 lh-copy f6 tc b
+                        theme-primary
+                    ">
+                    Arena ID
+                </label>
+                <input
+                    id="input-arenaid"
+                    title="Arena ID"
+                    type="text"
+                    value="trainerdemo"
+                    maxlength="20"
+                    class="
+                        click-select
+                        input-reset
+                        ba br2 b--white-20 pa2
+                        white tc
+                        bg-translucent-black" />
+            </div>
+            <form id="config-arena" method="post">
+                <input
+                    class="dn"
+                    type="checkbox"
+                    name="forceNew"
+                    value="1" />
+                <input
+                    class="dn"
+                    type="text"
+                    name="manualBrains"
+                    value="" />
+                <input
+                    class="
+                        button
+                        glitch-effect
+                        mv3 pv3 ph4
+                        f6 b
+                        br-pill ba bw2 pointer tc
+                        b--dark-pink bg-near-black theme-primary"
+                    value="Start"
+                    type="submit" />
+            </form>
+            <div class="f7 mv3 tr pr1">
+                <input
+                    type="checkbox"
+                    value="1"
+                    id="preset-forceNew"
+                    checked />
+                Ensure New Arena
+            </div>
+        </div>
+    </div>
+</section> <!-- END #container-arena-builder -->
+
+{% endblock %}
+
+{% block postbody %}
+<script src="/ui.textareaList.js"></script>
+<script>
+
+let input_arenaid = document.querySelector("#input-arenaid");
+
+let sanitise = (str) => { return str; };
+
+// server-supplied sanitiser {% if config and config.regex_arenaid %}
+let regex_arenaid_allowed = /[{{ config.regex_arenaid|safe }}]/,
+    regex_arenaid_negated = /[^{{ config.regex_arenaid|safe }}]/g;
+
+input_arenaid.addEventListener("keypress", e => {
+    if (!regex_arenaid_allowed.test(e.key)) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+sanitise = (str) => {
+    return str.replaceAll(regex_arenaid_negated, "_");
+}
+// END: server-supplied sanitiser {% endif %}
+
+/* config: hidden form */
+
+let configArena = document.querySelector('form#config-arena'),
+    arenaForceNew = configArena.querySelector('[name=forceNew]'),
+    arenaManualBrains = configArena.querySelector('[name=manualBrains]');
+
+const prepareArena = () => {
+    // dev: utilise localstorage to reduce interdependencies
+    let arenaid = localStorage.getItem('arenaid'),
+        robots_text = localStorage.getItem('ssbots') || '',
+        robots_array = robots_text.split(','),
+        forceNew = localStorage.getItem('forceNew');
+
+    if (forceNew == 1) {
+        arenaForceNew.checked = true;
+    } else {
+        arenaForceNew.checked = false;
+    }
+
+    arenaManualBrains.value = robots_text.trim();
+
+    configArena.setAttribute('action', '/arena/' + arenaid);
+}
+
+/* config: force new arena */
+
+let presetForceNew = document.querySelector('#preset-forceNew');
+
+const setForceNew = (state) => {
+    if (state == 1) {
+        presetForceNew.checked = true;
+        localStorage.setItem('forceNew', 1);
+    } else {
+        presetForceNew.checked = false;
+        localStorage.setItem('forceNew', 0);
+    }
+    prepareArena();
+}
+
+const refreshForceNewState = () => {
+    let forceNew = localStorage.getItem("forceNew");
+    if (forceNew === null) forceNew = 1; // default, on first visit
+    setForceNew(forceNew);
+}
+
+presetForceNew.addEventListener('click', () => {
+    let forceNew = localStorage.getItem("forceNew");
+    if (forceNew == 1) {
+        setForceNew(0);
+    } else {
+        setForceNew(1);
+    }
+});
+
+refreshForceNewState();
+
+/* config: arena id */
+
+const generateArenaID = () => {
+    // convenience: avoid characters that can be mistaken
+    //  dev: does not seem to adversely bias balancerid
+    var selection = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+    var id = "";
+    while (id.length < 8) {
+        id += selection[
+            Math.floor(Math.random() * selection.length)];
+    }
+    return id;
+};
+
+const storeArenaID = () => {
+    localStorage.setItem("arenaid", arenaID);
+};
+
+var arenaID = localStorage.getItem("arenaid");
+if (!arenaID) arenaID = generateArenaID();
+input_arenaid.value = sanitise(arenaID);
+
+storeArenaID();
+
+input_arenaid.addEventListener("keyup", function(e){
+    var newid = this.value.trim();
+    if (!newid) newid = generateArenaID();
+    newid = sanitise(newid);
+    arenaID = newid;
+    this.value = arenaID;
+    storeArenaID();
+    prepareArena();
+});
+
+/* config: robots */
+
+let replaceRobots = document.querySelectorAll('.replace-robots');
+
+let robotList = createTextareaList('#container-preloaded-robots', {
+    Events: {
+        onvalidate: (arr) => {
+            while (arr.length > 8) arr.shift();
+            if (arr.length < 2) arr = ['___BROWSERBOT___', 'wanderbot'];
+            return arr;
+        },
+        onstore: () => {
+            prepareArena();
+        }
+    },
+});
+
+replaceRobots.forEach(el => {
+    el.addEventListener('click', () => {
+        var robotids = [];
+        el.querySelectorAll('[data-robotid]').forEach(rEl => {
+            robotids.push(rEl.dataset.robotid);
+        });
+        setForceNew(1); // ensure new arena created
+        robotList.replace(robotids);
+    });
+})
+
+prepareArena();
+</script>
+
+<script src="/ui.parallax.js"></script>
+
+<script src="/util.friendlyTimes.js"></script>
+<script src="/util.fetchTimeout.js"></script>
+
+<script src="/ui.serverMonitor.js"></script>
+
+<script src="/ui.slide.js"></script>
+<script>createServerMonitor("#list-lb");</script>
+{% endblock %}

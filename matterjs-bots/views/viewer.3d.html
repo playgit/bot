@@ -1,0 +1,115 @@
+{% extends "_default.html" %}
+
+{% block head %}
+<!-- BABYLON 3D -->
+<script src="/{{ config.cdn or '' }}/unpkg.com/earcut@2.1.1/dist/earcut.min.js"></script>
+<script src="/{{ config.cdn or '' }}/cdn.babylonjs.com/babylon.js"></script>
+<script src="/{{ config.cdn or '' }}/cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+<script src="/util.tagsafe.js"></script>
+<script src="/arena-visuals.js"></script>
+<script src="/arena.renderer.3d.test-assets.js"></script>
+<script src="/arena.renderer.3d.animator.js"></script>
+<script src="/arena.renderer.3d.camera.js"></script>
+<script src="/arena.renderer.3d.robots.js"></script>
+<script src="/arena.renderer.3d.visual-bridge.js"></script>
+<script src="/arena.renderer.3d.js"></script>
+<style>
+#viewer {
+    width: 100%;
+    min-height: 350px;
+    height: 58vh;
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="
+        ph2 ph4-m ph5-l
+        mw9 mw8-ns
+        mb3
+        ml-auto mr-auto">
+    <!-- standardised header -->
+    <h1 class="
+            f1 ma0 pt4 fw6 tc
+            flex justify-center items-center">
+        <a href="/" title="back to front page..." class="mr3">
+            <img src="/artwork/logo.ebotmasters.medium.png" width="80" />
+        </a>
+        <span class="title-font theme-primary dn">
+            RBN-CODE
+        </span>
+        <div class="tl lh-copy">
+            <div class="
+                    di db-m f2
+                    flex flex-column
+                    retro-font">
+                Model Viewer
+            </div>
+        </div>
+    </h1>
+</div>
+
+<div class="
+        mw9 mw8-ns 
+        f7 tc normal mv2
+        ml-auto mr-auto">
+    <span class="model-status">initialising model...</span>
+</div>
+<div id="viewer" class="shadow-3 bt bb b--gray">
+    <canvas id="arena"></canvas>
+</div>
+
+<script>
+window.addEventListener('load', () => {
+
+window.__Renderer.set_component_options(
+    "RobotManager", {
+        ShowReference: true,
+        ReferenceGizmo: true,
+        RobotSize: 20,
+    }
+);
+
+window.__Renderer.set_canvas(1000, 1000, 1);
+
+window.__Renderer.set_overlay("/artwork/square.test.900x900.png");
+
+let RobotManager = window.__Renderer.RobotManager(),
+    Camera = window.__Renderer.CameraManager().Camera;
+
+RobotManager.on("referenceLoaded", (ROBOT) => {
+    let centerY = (
+        (ROBOT.BoundingBox.maximum.y - ROBOT.BoundingBox.minimum.y) 
+        / 2 * ROBOT.scale);
+    console.log(centerY); 
+    Camera.setTarget(new BABYLON.Vector3(0, centerY, 0));
+
+    Camera.radius = 50;
+    Camera.beta = Math.PI/3;
+    Camera.useAutoRotationBehavior = true;
+    Camera.autoRotationBehavior.idleRotationSpeed = -0.7;
+
+    // provide visual feedback on init and load
+    let rebuild_src = "";
+    if (ROBOT.src.startsWith("//")) {
+        rebuild_src = location.protocol;
+    } else if (ROBOT.src.startsWith("/")) {
+        rebuild_src = location.protocol + "//" + location.host;
+    }
+    rebuild_src += ROBOT.src;
+    document.querySelectorAll("span.model-status")
+        .forEach(s => { 
+            s.innerText = rebuild_src; 
+        });  
+});
+
+RobotManager.on("referenceError", (err, ROBOT) => {
+    document.querySelectorAll("span.model-status")
+        .forEach(s => { 
+            s.innerText = err; 
+        });
+});
+
+});
+</script>
+{% endblock %}

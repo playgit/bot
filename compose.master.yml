@@ -1,0 +1,22 @@
+services:
+  master:
+    build:
+      context: .
+    command:
+      - multiserver
+    ports:
+      - 5011:5011
+      - 5012:5012
+      - 5013:5013
+      - 5014:5014
+    environment:
+      - PORT=5011
+      - PROCS=2
+      - SIMULATOR_INJECT_DEBUG_INTO_ROBOT=0
+      - SIMULATOR_FAST_RESOLUTION=0
+    env_file:
+      - .env
+    volumes:
+      - ./data/compstates:/app/static/compstates # Competitions: http://localhost:5011/api
+      - ./data/simlogs:/app/static/simlogs
+      - ./data/brains:/app/battle/brains/drivers-ext
