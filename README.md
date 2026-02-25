@@ -10,7 +10,7 @@
 
 Clone this repo
 ```shell
-git clone arch-fun-ebot-server
+git clone git@git.internal.ru.com:RUNA/arch-fun-ebot-server.git
 cd arch-fun-ebot-server
 ```
 
