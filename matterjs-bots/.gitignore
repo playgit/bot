@@ -5,7 +5,6 @@ static/compstates/*.json
 static/simlogs/*.csv
 static/simlogs/*.json
 static/*.json
-battle/brains/drivers-ext/*.json
 !battle/brains/drivers-ext/fastbot.json
 !battle/brains/drivers-ext/slowbot.json
 !battle/brains/drivers-ext/spinbot.json
@@ -14,3 +13,4 @@ battle/brains/drivers-ext/*.json
 !battle/brains/drivers-ext/wanderbot.json
 !battle/brains/drivers-ext/dancebot.json
 notes.*
+*.pngß

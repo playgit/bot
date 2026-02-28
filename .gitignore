@@ -1,4 +1,6 @@
 data
 .env
 node_modules
-matterjs-bots/.git/
+matterjs-bots/
+battle-round1.png
+.gitignore
