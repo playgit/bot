@@ -1,0 +1,10 @@
+{
+    "id": "kstar_bot",
+    "key": false,
+    "name": "KStar Bot",
+    "team": "",
+    "brain": "// Init memory\nif (!context.memory.initialized) {\n    context.memory.initialized = true;\n    context.memory.evadeTicks = 0;\n}\n\nlet state = context.state;\nlet action = context.action;\nlet closest = state.proximity[0] || {};\nlet enemy = false;\n\n// 1. Find valid enemy\nif (state.scanner && state.scanner.robot) {\n    for (let i = 0; i < state.scanner.robot.length; i++) {\n        let r = state.scanner.robot[i];\n        if (r.active && r.team !== state.team) {\n            enemy = r;\n            break;\n        }\n    }\n}\n\n// 2. Check for damage\nlet takingDamage = state.lastDamage && state.lastDamage.length > 0;\n\nif (takingDamage || context.memory.evadeTicks > 0) {\n    // EVASIVE MANEUVERS\n    if (takingDamage) {\n        context.memory.evadeTicks = 15;\n        // Turn 90 degrees left or right relative to current angle\n        let turn = Math.random() > 0.5 ? Math.PI / 2 : -Math.PI / 2;\n        context.memory.evadeAngle = state.angle + turn;\n    } else {\n        context.memory.evadeTicks--;\n    }\n    action.desiredAngle = context.memory.evadeAngle;\n    action.desiredForce = state.maxForce; // Full speed\n    action.desiredLaunch = false;\n} \nelse if (closest.entityType === \"wall\") {\n    // WALL AVOIDANCE\n    action.desiredAngle = state.angleToCenter;\n    action.desiredForce = state.maxForce;\n    action.desiredLaunch = false;\n} \nelse if (enemy) {\n    // ATTACK MODE\n    // Target locked\n    action.desiredAngle = enemy.angleFromRobot;\n    action.desiredLaunch = true;\n    // Move slowly towards them\n    action.desiredForce = state.maxForce * 0.2; \n} \nelse {\n    // SCAN MODE\n    // Turn in a circle, drifting towards the center\n    action.desiredAngle = state.angle + 0.15;\n    action.desiredForce = state.maxForce * 0.3;\n    action.desiredLaunch = false;\n    \n    // Occasional center correction\n    if (Math.random() < 0.05) action.desiredAngle = state.angleToCenter;\n}",
+    "version": 1,
+    "updated": "2026-02-27T17:10:00.000Z",
+    "oldBrains": false
+}
