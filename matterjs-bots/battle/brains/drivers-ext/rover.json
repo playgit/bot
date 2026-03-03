@@ -1,0 +1,10 @@
+{
+    "id": "rover",
+    "key": false,
+    "name": "Rover",
+    "team": "rover",
+    "brain": "var s=context.state,a=context.action,m=context.memory;\nif(!m.t)m.t=0;m.t++;\nvar myX=s.position.x,myY=s.position.y,myA=s.angle;\nvar dC=Math.sqrt((myX-450)*(myX-450)+(myY-450)*(myY-450));\nvar toC=s.angleToCenter;\nvar rem=context.round.remaining;\nvar prox=s.proximity[0]||{};\nvar enemy=false;\nfor(var i=0;i<s.scanner.robot.length;i++){\n  var rb=s.scanner.robot[i];\n  if(rb.active&&(!enemy||rb.range<enemy.range)) enemy=rb;\n}\na.desiredForce=s.maxForce;\na.desiredScan=150;\nif(rem<5){\n  if(dC>8){a.desiredAngle=toC;a.desiredForce=s.maxForce;}\n  else{a.desiredForce=0;}\n}else if(rem<12){\n  a.desiredAngle=toC;\n  a.desiredForce=s.maxForce;\n  if(dC<40)a.desiredForce=s.maxForce*0.15;\n  if(enemy)a.desiredLaunch=true;\n}else{\n  if(prox.entityType=='wall'){\n    a.desiredAngle=toC;\n  }else if(enemy){\n    a.desiredAngle=enemy.angleFromRobot;\n    a.desiredLaunch=true;\n    a.desiredScan=Math.max(80,Math.min(300,enemy.range*0.8));\n  }else if(dC>280){\n    a.desiredAngle=toC;\n  }else if(Math.random()<0.015){\n    var spread=Math.PI/3;\n    a.desiredAngle=myA+(Math.random()*spread)-spread/2;\n  }\n}\nif(myX<55||myX>845||myY<55||myY>845){\n  a.desiredAngle=toC;a.desiredForce=s.maxForce;\n}",
+    "version": 1,
+    "updated": "2026-02-28T12:30:11.223Z",
+    "oldBrains": []
+}

@@ -1,0 +1,10 @@
+{
+    "id": "dp8_3",
+    "key": false,
+    "name": "DP8_3",
+    "team": "dp8_3",
+    "brain": "if (Math.random() < 0.5) {\n    context.action.desiredForce = context.state.maxForce;\n}\nvar closest = context.state.proximity[0] || {};\nvar front = context.state.scanner.robot[0] || false;\nvar rem = context.round.remaining;\nvar myX = context.state.position.x, myY = context.state.position.y;\nvar dC = Math.sqrt((myX-450)*(myX-450)+(myY-450)*(myY-450));\nif (rem < 3) {\n    if (dC > 8) {\n        context.action.desiredAngle = context.state.angleToCenter;\n        context.action.desiredForce = context.state.maxForce;\n    } else { context.action.desiredForce = 0; }\n} else if (rem < 8) {\n    context.action.desiredAngle = context.state.angleToCenter;\n    context.action.desiredForce = context.state.maxForce;\n    if (front && front.active && front.team != context.state.team)\n        context.action.desiredLaunch = true;\n} else if (closest.entityType == \"wall\") {\n    context.action.desiredAngle = context.state.angleToCenter;\n} else if (front) {\n    if (front.active && front.team != context.state.team) {\n        context.action.desiredAngle = front.angleFromRobot;\n        context.action.desiredLaunch = true;\n    } else {\n        var dir2 = (front.angleFromRobot - context.state.angle) < 0 ? -1 : 1;\n        context.action.desiredAngle = context.state.angle - (dir2 * 0.174533);\n        context.action.desiredForce = context.state.maxForce / 2;\n    }\n} else if (Math.random() < 0.005) {\n    var maxvar = Math.PI / 4;\n    var random = (Math.random() * maxvar) - maxvar/2;\n    context.action.desiredAngle = context.state.angle + random;\n    context.action.desiredForce = 0;\n}",
+    "version": 1,
+    "updated": "2026-02-28T12:41:05.518Z",
+    "oldBrains": []
+}

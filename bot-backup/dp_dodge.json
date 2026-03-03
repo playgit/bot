@@ -1,0 +1,10 @@
+{
+    "id": "dp_dodge",
+    "key": false,
+    "name": "DPDodge",
+    "team": "dp_dodge",
+    "brain": "if(Math.random()<0.5){context.action.desiredForce=context.state.maxForce;}\nvar s=context.state,a=context.action;\nvar closest=s.proximity[0]||{};\nvar front=s.scanner.robot[0]||false;\nvar rem=context.round.remaining;\nvar myX=s.position.x,myY=s.position.y;\nvar dC=Math.sqrt((myX-450)*(myX-450)+(myY-450)*(myY-450));\nvar PI=Math.PI;\nif(rem<5){\n  if(dC>8){a.desiredAngle=s.angleToCenter;a.desiredForce=s.maxForce;}\n  else{a.desiredForce=0;}\n}else if(rem<12){\n  a.desiredAngle=s.angleToCenter;\n  a.desiredForce=s.maxForce;\n  if(front&&front.active&&front.team!=s.team)a.desiredLaunch=true;\n}else if(closest.entityType==\"wall\"){\n  a.desiredAngle=s.angleToCenter;\n}else if(front){\n  if(front.active&&front.team!=s.team){\n    a.desiredAngle=front.angleFromRobot;\n    a.desiredLaunch=true;\n  }else{\n    var dir2=(front.angleFromRobot-s.angle)<0?-1:1;\n    a.desiredAngle=s.angle-(dir2*0.174533);\n    a.desiredForce=s.maxForce/2;\n  }\n}else if(Math.random()<0.005){\n  var maxvar=PI/4;\n  a.desiredAngle=s.angle+(Math.random()*maxvar)-maxvar/2;\n  a.desiredForce=0;\n}\nfor(var j=0;j<s.proximity.length;j++){\n  var p=s.proximity[j];\n  if(p.entityType==='robot'&&p.range<40){\n    a.desiredAngle=(p.angleFromRobot+PI)%(PI*2);\n    a.desiredForce=s.maxForce*0.5;break;\n  }\n}",
+    "version": 1,
+    "updated": "2026-02-28T12:48:27.897Z",
+    "oldBrains": []
+}

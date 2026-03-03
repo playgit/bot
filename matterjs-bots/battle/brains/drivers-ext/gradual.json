@@ -1,0 +1,10 @@
+{
+    "id": "gradual",
+    "key": false,
+    "name": "Gradual",
+    "team": "gradual",
+    "brain": "var s=context.state,a=context.action;\nvar PI2=Math.PI*2,PI=Math.PI;\nvar angDiff=function(x,y){var d=(x-y)%PI2;if(d>PI)d-=PI2;if(d<-PI)d+=PI2;return d;};\nvar myA=s.angle,toC=s.angleToCenter;\nvar myX=s.position.x,myY=s.position.y;\nvar dC=Math.sqrt((myX-450)*(myX-450)+(myY-450)*(myY-450));\nvar rem=context.round.remaining;\nvar closest=s.proximity[0]||{};\nvar front=s.scanner.robot[0]||false;\nvar progress=Math.max(0,1-rem/60);\nvar centerPull=progress*progress*0.6;\nif(Math.random()<0.5) a.desiredForce=s.maxForce;\nif(rem<5){\n  if(dC>8){a.desiredAngle=toC;a.desiredForce=s.maxForce;}\n  else a.desiredForce=0;\n}else if(rem<12){\n  a.desiredAngle=toC;a.desiredForce=s.maxForce;\n  if(front&&front.active&&front.team!=s.team)a.desiredLaunch=true;\n}else if(closest.entityType==\"wall\"){\n  a.desiredAngle=toC;\n}else if(front){\n  if(front.active&&front.team!=s.team){\n    a.desiredAngle=front.angleFromRobot;\n    a.desiredLaunch=true;\n  }else{\n    var dir2=(front.angleFromRobot-myA)<0?-1:1;\n    a.desiredAngle=myA-(dir2*0.174533);\n    a.desiredForce=s.maxForce/2;\n  }\n}else{\n  if(centerPull>0.05&&dC>120){\n    a.desiredAngle=myA+angDiff(toC,myA)*centerPull;\n  }\n  if(Math.random()<0.005){\n    var maxvar=PI/4;\n    a.desiredAngle=myA+(Math.random()*maxvar)-maxvar/2;\n    a.desiredForce=0;\n  }\n}",
+    "version": 1,
+    "updated": "2026-02-28T12:48:27.893Z",
+    "oldBrains": []
+}

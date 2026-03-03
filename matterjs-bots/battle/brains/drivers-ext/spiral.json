@@ -1,0 +1,10 @@
+{
+    "id": "spiral",
+    "key": false,
+    "name": "Spiral",
+    "team": "spiral",
+    "brain": "var s=context.state,a=context.action,m=context.memory;\nvar PI2=Math.PI*2,PI=Math.PI;\nif(!m.t){m.t=0;m.d=1;}m.t++;\nvar angDiff=function(a,b){var d=(a-b)%PI2;if(d>PI)d-=PI2;if(d<-PI)d+=PI2;return d;};\nvar myX=s.position.x,myY=s.position.y,myA=s.angle;\nvar dC=Math.sqrt((myX-450)*(myX-450)+(myY-450)*(myY-450));\nvar toC=s.angleToCenter;\nvar rem=context.round.remaining;\nvar prox=s.proximity[0]||{};\nvar enemy=false;\nfor(var i=0;i<s.scanner.robot.length;i++){\n  var rb=s.scanner.robot[i];\n  if(rb.active&&(!enemy||rb.range<enemy.range)) enemy=rb;\n}\na.desiredScan=180;\nif(rem<5){\n  if(dC>8){a.desiredAngle=toC;a.desiredForce=s.maxForce;}\n  else a.desiredForce=0;\n}else if(rem<12){\n  a.desiredAngle=toC;a.desiredForce=s.maxForce;\n  if(dC<40)a.desiredForce=s.maxForce*0.15;\n  if(enemy)a.desiredLaunch=true;\n}else{\n  var targetR=200;\n  if(dC>targetR+100){\n    a.desiredAngle=toC;\n    a.desiredForce=s.maxForce;\n  }else if(dC<targetR-80){\n    a.desiredAngle=toC+PI;\n    a.desiredForce=s.maxForce*0.4;\n  }else{\n    a.desiredAngle=toC+PI/2*m.d;\n    a.desiredForce=s.maxForce*0.7;\n    if(Math.random()<0.008)m.d=-m.d;\n  }\n  if(prox.entityType=='wall'){\n    a.desiredAngle=toC;a.desiredForce=s.maxForce;\n  }\n  if(enemy){\n    var aimErr=Math.abs(angDiff(myA,enemy.angleFromRobot));\n    if(aimErr<0.8)a.desiredAngle=enemy.angleFromRobot;\n    a.desiredLaunch=true;\n    a.desiredScan=Math.max(80,Math.min(300,enemy.range*0.8));\n  }\n}\nif(myX<55||myX>845||myY<55||myY>845){\n  a.desiredAngle=toC;a.desiredForce=s.maxForce;\n}",
+    "version": 1,
+    "updated": "2026-02-28T12:30:11.224Z",
+    "oldBrains": []
+}

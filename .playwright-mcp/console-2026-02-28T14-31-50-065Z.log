@@ -1,0 +1,6 @@
+[      58ms] TypeError: Cannot set properties of null (setting 'innerHTML')
+    at createServerMonitor (http://localhost:5001/ui.serverMonitor.js:126:23)
+    at http://localhost:5001/:706:9
+[  118163ms] TypeError: Cannot set properties of null (setting 'innerHTML')
+    at createServerMonitor (http://localhost:5001/ui.serverMonitor.js:126:23)
+    at http://localhost:5001/:706:9

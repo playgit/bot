@@ -1,0 +1,10 @@
+{
+    "id": "dp_lead",
+    "key": false,
+    "name": "DPLead",
+    "team": "dp_lead",
+    "brain": "var s=context.state,a=context.action,m=context.memory;\nvar PI2=Math.PI*2,PI=Math.PI;\nif(!m.t){m.t=0;m.lf=-99;}m.t++;\nvar angDiff=function(x,y){var d=(x-y)%PI2;if(d>PI)d-=PI2;if(d<-PI)d+=PI2;return d;};\nvar angTo=function(x1,y1,x2,y2){return Math.atan2(y2-y1,x2-x1);};\nvar myX=s.position.x,myY=s.position.y,myA=s.angle;\nvar dC=Math.sqrt((myX-450)*(myX-450)+(myY-450)*(myY-450));\nvar toC=s.angleToCenter;\nvar rem=context.round.remaining;\nvar closest=s.proximity[0]||{};\nvar front=s.scanner.robot[0]||false;\n\nif(Math.random()<0.5)a.desiredForce=s.maxForce;\n\nif(rem<5){\n  if(dC>8){a.desiredAngle=toC;a.desiredForce=s.maxForce;}\n  else a.desiredForce=0;\n}else if(rem<12){\n  a.desiredAngle=toC;a.desiredForce=s.maxForce;\n  if(front&&front.active&&front.team!=s.team)a.desiredLaunch=true;\n}else if(closest.entityType=='wall'){\n  a.desiredAngle=toC;\n}else if(front&&front.active&&front.team!=s.team){\n  var range=front.range;\n  var projSpeed=42;\n  var tF=range/projSpeed;\n  var pX=front.x+front.speed*Math.cos(front.angle)*tF;\n  var pY=front.y+front.speed*Math.sin(front.angle)*tF;\n  var lA=angTo(myX,myY,pX,pY);\n  a.desiredAngle=lA;\n  var aimErr=Math.abs(angDiff(myA,lA));\n  var tgtW=Math.atan2(28,range);\n  if(aimErr<tgtW&&(m.t-m.lf)>=30){\n    a.desiredLaunch=true;m.lf=m.t;\n  }\n}else if(front&&(!front.active||front.team==s.team)){\n  var dir2=(front.angleFromRobot-myA)<0?-1:1;\n  a.desiredAngle=myA-(dir2*0.174533);\n  a.desiredForce=s.maxForce/2;\n}else if(dC>300){\n  a.desiredAngle=toC;\n  a.desiredForce=s.maxForce;\n}else if(Math.random()<0.005){\n  var maxvar=PI/4;\n  a.desiredAngle=myA+(Math.random()*maxvar)-maxvar/2;\n  a.desiredForce=0;\n}",
+    "version": 1,
+    "updated": "2026-02-28T12:37:35.913Z",
+    "oldBrains": []
+}
